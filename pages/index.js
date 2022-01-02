@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import s from '../styles/Home.module.scss'
+import Canvas from '../components/Canvas/Canvas'
 
 export default function Home() {
   return (<>
@@ -8,5 +8,7 @@ export default function Home() {
       <meta name="description" content="Canvas 2D drawing" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
+
+    <Canvas width={600} height={500}/>
   </>)
 }
