@@ -7,7 +7,7 @@ export function TextField({ prompt, value, setValue }) {
         <label>{prompt}</label>
       </div>
       <div>
-        <input value={value || ""} onChange={(e)=>{setValue(e.target.value)}}/>
+        <input value={value} onChange={(e)=>{setValue(e.target.value)}}/>
       </div>
     </div>
   </>)

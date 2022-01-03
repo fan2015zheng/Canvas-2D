@@ -1,14 +1,17 @@
 import Coordinate from "./Cooridnate"
 
+let stop = false
+
 export function Graph(canvas: HTMLCanvasElement, coordinate: Coordinate) {
   
   if(!canvas || !coordinate) { return }
 
   const ctx = canvas.getContext("2d")
+  if(!ctx) return
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-    
-  const mesh = MeshPath(coordinate)
 
+  const mesh = MeshPath(coordinate)
+if(stop) return
   ctx.lineWidth = 0.5
   ctx.strokeStyle = "tan"
   ctx.stroke(mesh)
@@ -18,7 +21,9 @@ export function Graph(canvas: HTMLCanvasElement, coordinate: Coordinate) {
   ctx.font = "12px Monospace"
   ctx.textAlign = "center"
   ctx.textBaseline = "middle"
+
   const axis = Axis(ctx, coordinate)
+  if(stop) return
   ctx.stroke(axis)
 }
 
@@ -46,7 +51,6 @@ function Axis(ctx: CanvasRenderingContext2D, coordinate: Coordinate) {
   let p = co.ShiftPoint(origin, co.xLabelGap, 0)
 
   while (p.x < co.maxX && co.xLabelGap > 0) {
-
     axis.moveTo(p.xPixel, p.yPixel)
     axis.lineTo(p.xPixel, p.yPixel + 10)
     ctx.strokeText(Text(p.x), p.xPixel, p.yPixel + 20)
@@ -54,7 +58,6 @@ function Axis(ctx: CanvasRenderingContext2D, coordinate: Coordinate) {
   }
   p = co.ShiftPoint(origin, -co.xLabelGap, 0)
   while (p.x > co.minX && co.xLabelGap > 0) {
-
     axis.moveTo(p.xPixel, p.yPixel)
     axis.lineTo(p.xPixel, p.yPixel + 10)
     ctx.strokeText(Text(p.x), p.xPixel, p.yPixel + 20)
@@ -63,7 +66,6 @@ function Axis(ctx: CanvasRenderingContext2D, coordinate: Coordinate) {
 
   p = co.ShiftPoint(origin, 0, co.yLabelGap)
   while (p.y < co.maxY && co.yLabelGap > 0) {
-
     axis.moveTo(p.xPixel, p.yPixel)
     axis.lineTo(p.xPixel - 10, p.yPixel)
     ctx.strokeText(Text(p.y), p.xPixel - 25, p.yPixel)
@@ -71,7 +73,6 @@ function Axis(ctx: CanvasRenderingContext2D, coordinate: Coordinate) {
   }
   p = co.ShiftPoint(origin, 0, -co.yLabelGap)
   while (p.y > co.minY && co.yLabelGap > 0) {
-
     axis.moveTo(p.xPixel, p.yPixel)
     axis.lineTo(p.xPixel - 10, p.yPixel)
     ctx.strokeText(Text(p.y), p.xPixel - 25, p.yPixel)
@@ -86,6 +87,7 @@ function  MeshPath(coordinate: Coordinate) {
   let mesh = new Path2D()
 
   for(let x=co.minX; x <= co.maxX; x += co.xLabelGap/co.xRulePerLabel ) {
+ 
     const p1 = co.Point(x, co.minY)
     const p2 = co.Point(x, co.maxY)
     mesh.moveTo(p1.xPixel, p1.yPixel)
