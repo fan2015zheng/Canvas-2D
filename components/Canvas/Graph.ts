@@ -1,12 +1,10 @@
 import Coordinate from "./Cooridnate"
 
-export function Graph(canvas: HTMLCanvasElement) {
+export function Graph(canvas: HTMLCanvasElement, coordinate: Coordinate) {
   
-  if(!canvas) { return }
+  if(!canvas || !coordinate) { return }
 
   const ctx = canvas.getContext("2d")
-  const coordinate = new Coordinate(canvas.width, canvas.height, 
-      1.2, 1.2, -0.2, -0.2, 0, 0, 0.1, 0.1)
 
   const mesh = MeshPath(coordinate)
 
