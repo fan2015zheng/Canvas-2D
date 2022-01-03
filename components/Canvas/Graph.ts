@@ -6,7 +6,7 @@ export function Graph(canvas: HTMLCanvasElement) {
 
   const ctx = canvas.getContext("2d")
   const coordinate = new Coordinate(canvas.width, canvas.height, 
-      1.2, 1.2, -0.2, -0.2, 30, 30, 0, 0, 0.1, 0.1)
+      1.2, 1.2, -0.2, -0.2, 0, 0, 0.1, 0.1)
 
   const mesh = MeshPath(coordinate)
 
@@ -86,7 +86,7 @@ function  MeshPath(coordinate: Coordinate) {
   const co = coordinate
   let mesh = new Path2D()
 
-  for(let x=co.minX; x <= co.maxX; x += co.xLen(co.xRuleGapPixel)) {
+  for(let x=co.minX; x <= co.maxX; x += co.xLabelGap/co.xRulePerLabel ) {
     const p1 = co.Point(x, co.minY)
     const p2 = co.Point(x, co.maxY)
     mesh.moveTo(p1.xPixel, p1.yPixel)
@@ -94,7 +94,7 @@ function  MeshPath(coordinate: Coordinate) {
     mesh = new Path2D(mesh)
   }
 
-  for(let y=co.minY; y <= co.maxY; y += co.yLen(co.yRuleGapPixel)) {
+  for(let y=co.minY; y <= co.maxY; y += co.yLabelGap/co.yRulePerLabel) {
     const p1 = co.Point(co.minX, y)
     const p2 = co.Point(co.maxX, y)
     mesh.moveTo(p1.xPixel, p1.yPixel)

@@ -9,16 +9,16 @@ export default class Coordinate {
   maxY: number
   minX: number
   minY: number
-  xRuleGapPixel: number
-  yRuleGapPixel: number
   originX: number
   originY: number
   xLabelGap: number
   yLabelGap: number
+  xRulePerLabel: number
+  yRulePerLabel: number
 
   constructor(maxPixelX: number, maxPixelY: number, maxX: number, maxY: number, 
-    minX: number, minY: number, xRuleGapPixel: number, yRuleGapPixel: number,
-    originX: number, originY: number, xLabelGap: number, yLabelGap: number
+    minX: number, minY: number, originX: number, originY: number, 
+    xLabelGap: number, yLabelGap: number, xRulePerLabel: number =2, yRulePerLabel: number = 2
   ) {
     this.xFun = (pixelX: number) => pixelX * (maxX - minX) / maxPixelX + minX
     this.yFun = (pixelY: number) => pixelY * (minY - maxY) / maxPixelY + maxY
@@ -28,12 +28,12 @@ export default class Coordinate {
     this.maxY = maxY
     this.minX = minX
     this.minY = minY
-    this.xRuleGapPixel = xRuleGapPixel
-    this.yRuleGapPixel = yRuleGapPixel
     this.originX = originX
     this.originY = originY
     this.xLabelGap = xLabelGap
     this.yLabelGap = yLabelGap
+    this.xRulePerLabel = xRulePerLabel
+    this.yRulePerLabel = yRulePerLabel
   }
 
   Point(x: number, y: number): IPoint {
@@ -48,14 +48,6 @@ export default class Coordinate {
     const x = point.x + dx
     const y = point.y + dy
     return this.Point(x, y)
-  }
-
-  xLen(xLenPixel: number) {
-    return this.xFun(xLenPixel) - this.xFun(0)
-  }
-
-  yLen(yLenPixel: number) {
-    return this.yFun(0) - this.yFun(yLenPixel)
   }
 }
 
