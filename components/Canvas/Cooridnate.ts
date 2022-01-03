@@ -1,23 +1,27 @@
 
 export default class Coordinate {
 
-  xFun: (pixelX: number) => number = (pixelX: number) => pixelX
-  yFun: (pixelY: number) => number = (pixelY: number) => pixelY
-  xInvFun: (x: number) => number = (x) => x
-  yInvFun: (y: number) => number = (y) => y
-  maxPixelX: number = 300
-  maxPixelY: number = 200
-  maxX: number = 300
-  maxY: number = 200
-  minX: number = 0
-  minY: number = 0
+  maxPixelX: number = 800
+  maxPixelY: number = 400
+  maxX: number = 110
+  maxY: number = 1.05
+  minX: number = -10
+  minY: number = -0.1
   originX: number = 0
   originY: number = 0
-  xLabelGap: number = 50
-  yLabelGap: number = 50
-  xRulePerLabel: number = 1
-  yRulePerLabel: number = 1
-
+  xLabelGap: number = 10
+  yLabelGap: number = 0.1
+  xRulePerLabel: number = 2
+  yRulePerLabel: number = 2
+  
+  xFun: (pixelX: number) => number = 
+    (pixelX: number) => pixelX * (this.maxX - this.minX) / this.maxPixelX + this.minX
+  yFun: (pixelY: number) => number = 
+    (pixelY: number) => pixelY * (this.minY - this.maxY) / this.maxPixelY + this.maxY
+  xInvFun: (x: number) => number = 
+    (x) => (x - this.minX) * this.maxPixelX / (this.maxX - this.minX)
+  yInvFun: (y: number) => number = 
+    (y) => (y - this.maxY) * this.maxPixelY / (this.minY - this.maxY)
 
 
   IsValid() {

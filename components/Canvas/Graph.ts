@@ -1,7 +1,5 @@
 import Coordinate from "./Cooridnate"
 
-let stop = false
-
 export function Graph(canvas: HTMLCanvasElement, coordinate: Coordinate) {
   
   if(!canvas || !coordinate) { return }
@@ -11,7 +9,7 @@ export function Graph(canvas: HTMLCanvasElement, coordinate: Coordinate) {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   const mesh = MeshPath(coordinate)
-if(stop) return
+
   ctx.lineWidth = 0.5
   ctx.strokeStyle = "tan"
   ctx.stroke(mesh)
@@ -23,8 +21,11 @@ if(stop) return
   ctx.textBaseline = "middle"
 
   const axis = Axis(ctx, coordinate)
-  if(stop) return
   ctx.stroke(axis)
+
+  const points = DataPoints(coordinate, 0.2)
+  ctx.fill(points)
+  
 }
 
 function Text(num: number) {
@@ -104,4 +105,27 @@ function  MeshPath(coordinate: Coordinate) {
   }
 
   return mesh
+}
+
+function f(x: number) {
+  const h = 1
+  return h*x*(1-x)
+}
+
+function DataPoints(coordinate: Coordinate, y0: number) {
+  const co = coordinate
+  let points = new Path2D()
+  
+  const beginX = Math.round(Math.max(0, co.minX))
+  const endX = Math.round(co.maxX)
+
+  let y = y0
+  for(let x=beginX; x<=endX; x++) {
+    y = f(y)
+    const p = co.Point(x, y)
+    points.arc(p.xPixel, p.yPixel, 2, 0, 2*Math.PI)
+    points.moveTo(0,0)
+    points = new Path2D(points)
+  }
+  return points
 }
