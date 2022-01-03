@@ -5,7 +5,8 @@ export function Graph(canvas: HTMLCanvasElement, coordinate: Coordinate) {
   if(!canvas || !coordinate) { return }
 
   const ctx = canvas.getContext("2d")
-
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+    
   const mesh = MeshPath(coordinate)
 
   ctx.lineWidth = 0.5

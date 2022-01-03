@@ -24,6 +24,7 @@ export default class Coordinate {
     this.yFun = (pixelY: number) => pixelY * (minY - maxY) / maxPixelY + maxY
     this.xInvFun = (x) => (x - minX) * maxPixelX / (maxX - minX)
     this.yInvFun = (y) => (y - maxY) * maxPixelY / (minY - maxY)
+
     this.maxX = maxX
     this.maxY = maxY
     this.minX = minX
