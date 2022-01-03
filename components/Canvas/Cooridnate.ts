@@ -9,9 +9,17 @@ export default class Coordinate {
   maxY: number
   minX: number
   minY: number
+  xRuleGapPixel: number
+  yRuleGapPixel: number
+  originX: number
+  originY: number
+  xLabelGap: number
+  yLabelGap: number
 
   constructor(maxPixelX: number, maxPixelY: number, maxX: number, maxY: number, 
-    minX: number, minY: number) {
+    minX: number, minY: number, xRuleGapPixel: number, yRuleGapPixel: number,
+    originX: number, originY: number, xLabelGap: number, yLabelGap: number
+  ) {
     this.xFun = (pixelX: number) => pixelX * (maxX - minX) / maxPixelX + minX
     this.yFun = (pixelY: number) => pixelY * (minY - maxY) / maxPixelY + maxY
     this.xInvFun = (x) => (x - minX) * maxPixelX / (maxX - minX)
@@ -20,6 +28,12 @@ export default class Coordinate {
     this.maxY = maxY
     this.minX = minX
     this.minY = minY
+    this.xRuleGapPixel = xRuleGapPixel
+    this.yRuleGapPixel = yRuleGapPixel
+    this.originX = originX
+    this.originY = originY
+    this.xLabelGap = xLabelGap
+    this.yLabelGap = yLabelGap
   }
 
   Point(x: number, y: number): IPoint {
@@ -28,6 +42,12 @@ export default class Coordinate {
       xPixel: this.xInvFun(x),
       yPixel: this.yInvFun(y)
     }
+  }
+
+  ShiftPoint(point: IPoint, dx: number, dy: number) {
+    const x = point.x + dx
+    const y = point.y + dy
+    return this.Point(x, y)
   }
 
   xLen(xLenPixel: number) {
