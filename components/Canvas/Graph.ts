@@ -7,14 +7,14 @@ export function Graph(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext("2d")
   const coordinate = new Coordinate(canvas.width, canvas.height, 1000, 5, 0, -5)
 
-  const mesh = MeshPath(coordinate, 50, 50)
+  const mesh = MeshPath(coordinate, 30, 30)
 
   ctx.lineWidth = 0.5
   ctx.stroke(mesh)
 
 }
 
-export function  MeshPath(coordinate: Coordinate, xIntervalPixel: number, yIntervalPixel: number) {
+function  MeshPath(coordinate: Coordinate, xIntervalPixel: number, yIntervalPixel: number) {
   
   if(yIntervalPixel === undefined) {
     yIntervalPixel = xIntervalPixel
@@ -29,6 +29,7 @@ export function  MeshPath(coordinate: Coordinate, xIntervalPixel: number, yInter
     mesh.lineTo(p2.xPixel, p2.yPixel)
     mesh = new Path2D(mesh)
   }
+
   for(let y=co.minY; y <= co.maxY; y += co.yLen(yIntervalPixel)) {
     const p1 = co.Point(co.minX, y)
     const p2 = co.Point(co.maxX, y)

@@ -13,9 +13,9 @@ export default class Coordinate {
   constructor(maxPixelX: number, maxPixelY: number, maxX: number, maxY: number, 
     minX: number, minY: number) {
     this.xFun = (pixelX: number) => pixelX * (maxX - minX) / maxPixelX + minX
-    this.yFun = (pixelY) => pixelY * (maxY - minY) / maxPixelY + minY
+    this.yFun = (pixelY: number) => pixelY * (minY - maxY) / maxPixelY + maxY
     this.xInvFun = (x) => (x - minX) * maxPixelX / (maxX - minX)
-    this.yInvFun = (y) => (y - minY) * maxPixelY / (maxY - minY)
+    this.yInvFun = (y) => (y - maxY) * maxPixelY / (minY - maxY)
     this.maxX = maxX
     this.maxY = maxY
     this.minX = minX
@@ -35,7 +35,7 @@ export default class Coordinate {
   }
 
   yLen(yLenPixel: number) {
-    return this.yFun(yLenPixel) - this.yFun(0)
+    return this.yFun(0) - this.yFun(yLenPixel)
   }
 }
 

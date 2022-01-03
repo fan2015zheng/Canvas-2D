@@ -9,6 +9,6 @@ export default function Home() {
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <Canvas width={600} height={500}/>
+    <Canvas width={800} height={500}/>
   </>)
 }
