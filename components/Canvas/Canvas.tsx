@@ -1,12 +1,14 @@
 import { useEffect, useRef } from "react"
 import { Graph } from "./Graph"
 import type Coordinate from "./Cooridnate"
+import LogisticMap from "./LogisticMap"
 
 interface ICanvasProp {
   coordinate?: Coordinate
+  logisticMap?: LogisticMap
 }
 
-export function Canvas({coordinate} : ICanvasProp) {
+export function Canvas({coordinate, logisticMap} : ICanvasProp) {
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -16,7 +18,7 @@ export function Canvas({coordinate} : ICanvasProp) {
     if(!coordinate) { return }
     if(!coordinate.IsValid()) { return }
 
-    Graph(canvas, coordinate)
+    Graph(canvas, coordinate, logisticMap)
   })
 
   if(!coordinate) {

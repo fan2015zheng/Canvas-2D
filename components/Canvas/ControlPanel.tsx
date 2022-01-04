@@ -2,14 +2,20 @@ import { useState } from 'react'
 import { TextField } from "../Field/TextField"
 import cl from "./ControlPanel.module.scss"
 import Coordinate, { IsCoordinateValid } from './Cooridnate'
+import LogisticMap, { IsLogisticValid } from './LogisticMap'
 
 interface IControlPanelProp {
-  apply?: (coordinate: Coordinate) => void
+  apply?: (coordinate: Coordinate, logisticMap: LogisticMap) => void
   defaultCoordinate: Coordinate
+  defaultLogisticMap: LogisticMap
 }
 
-export function ControlPanel({apply, defaultCoordinate}: IControlPanelProp) {
+export function ControlPanel({
+  apply, defaultCoordinate, defaultLogisticMap
+}: IControlPanelProp) {
   
+  const [logisticH, setLogisticH] = useState<number>(defaultLogisticMap.h)
+  const [logisticX0, setLogisticX0] = useState<number>(defaultLogisticMap.x0)
   const [maxPixelX, setMaxPixelX] = useState<number>(defaultCoordinate.maxPixelX)
   const [maxPixelY, setMaxPixelY] = useState<number>(defaultCoordinate.maxPixelY)
   const [maxX, setMaxX] = useState<number>(defaultCoordinate.maxX)
@@ -20,21 +26,22 @@ export function ControlPanel({apply, defaultCoordinate}: IControlPanelProp) {
   const [originY, setOriginY] = useState<number>(defaultCoordinate.originY)
   const [xLabelGap, setXLabelGap] = useState<number>(defaultCoordinate.xLabelGap)
   const [yLabelGap, setYLabelGap] = useState<number>(defaultCoordinate.yLabelGap)
-
-  const xRulePerGap = 2
-  const yRulePerGap = 2
+  const [xRulePerLabel, setXRulePerLabel] = useState<number>(defaultCoordinate.xRulePerLabel)
+  const [yRulePerLabel, setYRulePerLabel] = useState<number>(defaultCoordinate.yRulePerLabel)
 
   const onClickApply = ()=>{
-    if(IsCoordinateValid(
-      maxPixelX, maxPixelY, maxX, maxY, minX, minY, 
-      xLabelGap, yLabelGap, xRulePerGap, yRulePerGap)
+    if(
+      IsCoordinateValid(maxPixelX, maxPixelY, maxX, maxY, minX, minY, 
+        xLabelGap, yLabelGap, xRulePerLabel, yRulePerLabel) && 
+      IsLogisticValid(logisticH, logisticX0)
     ) {
       const coordinate = new Coordinate(
         maxPixelX, maxPixelY, maxX, maxY, minX, minY, originX, originY,
-        xLabelGap, yLabelGap, xRulePerGap, yRulePerGap
+        xLabelGap, yLabelGap, xRulePerLabel, yRulePerLabel
       )
+      const logisticMap = new LogisticMap(logisticH, logisticX0)
      
-      if(apply) { apply(coordinate) }
+      if(apply) { apply(coordinate, logisticMap) }
     } else {
       alert("Parameters are not valid")
     }
@@ -42,6 +49,8 @@ export function ControlPanel({apply, defaultCoordinate}: IControlPanelProp) {
 
   return (<>
     <div className={cl.fields}>
+      <TextField prompt="Parameter h" value={logisticH} setValue={setLogisticH} />
+      <TextField prompt="Initial x0" value={logisticX0} setValue={setLogisticX0} />
       <TextField prompt="Canvas Width" value={maxPixelX} setValue={setMaxPixelX} />
       <TextField prompt="Canvas Height" value={maxPixelY} setValue={setMaxPixelY} />
       <TextField prompt="Max X" value={maxX} setValue={setMaxX} />
@@ -52,9 +61,11 @@ export function ControlPanel({apply, defaultCoordinate}: IControlPanelProp) {
       <TextField prompt="Origin Y" value={originY} setValue={setOriginY} />
       <TextField prompt="X Label Gap" value={xLabelGap} setValue={setXLabelGap} />
       <TextField prompt="Y Label Gap" value={yLabelGap} setValue={setYLabelGap} />
+      <TextField prompt="X Rules Per Label" value={xRulePerLabel} setValue={setXRulePerLabel} />
+      <TextField prompt="Y Rules Per Label" value={yRulePerLabel} setValue={setYRulePerLabel} />
     </div>
     <div>
-      <button onClick={onClickApply}>Apply</button>
+      <button className={cl.button} onClick={onClickApply}>Apply</button>
     </div>
   </>)
 }

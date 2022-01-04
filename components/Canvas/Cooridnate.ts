@@ -3,7 +3,7 @@ export default class Coordinate {
 
   maxPixelX: number = 800
   maxPixelY: number = 400
-  maxX: number = 110
+  maxX: number = 50
   maxY: number = 1.05
   minX: number = -10
   minY: number = -0.1

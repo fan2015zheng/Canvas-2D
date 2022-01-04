@@ -1,6 +1,8 @@
 import Coordinate from "./Cooridnate"
+import LogisticMap from "./LogisticMap"
 
-export function Graph(canvas: HTMLCanvasElement, coordinate: Coordinate) {
+export function Graph(canvas: HTMLCanvasElement, 
+  coordinate: Coordinate, logisticMap: LogisticMap) {
   
   if(!canvas || !coordinate) { return }
 
@@ -23,7 +25,7 @@ export function Graph(canvas: HTMLCanvasElement, coordinate: Coordinate) {
   const axis = Axis(ctx, coordinate)
   ctx.stroke(axis)
 
-  const points = DataPoints(coordinate, 0.2)
+  const points = DataPoints(coordinate, logisticMap)
   ctx.fill(points)
   
 }
@@ -107,25 +109,26 @@ function  MeshPath(coordinate: Coordinate) {
   return mesh
 }
 
-function f(x: number) {
-  const h = 1
-  return h*x*(1-x)
-}
-
-function DataPoints(coordinate: Coordinate, y0: number) {
+function DataPoints(coordinate: Coordinate, logisticMap: LogisticMap) {
   const co = coordinate
   let points = new Path2D()
   
-  const beginX = Math.round(Math.max(0, co.minX))
-  const endX = Math.round(co.maxX)
+  let y0 = logisticMap.x0
+  const p0 = co.Point(0,y0)
+  points.arc(p0.xPixel, p0.yPixel, 4, 0, 2*Math.PI)
 
+  const endX = Math.round(co.maxX)
   let y = y0
-  for(let x=beginX; x<=endX; x++) {
-    y = f(y)
+  for(let x=1; x<=endX; x++) {
+    y = logisticMap.f(y)
+    if(x < 10) {
+      console.log("x="+x, "y="+y)
+    }
     const p = co.Point(x, y)
     points.arc(p.xPixel, p.yPixel, 2, 0, 2*Math.PI)
+   
     points.moveTo(0,0)
-    points = new Path2D(points)
+    // points = new Path2D(points)
   }
   return points
 }

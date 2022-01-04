@@ -1,3 +1,20 @@
 .field {
-  padding: 10px;
+  padding: 5px;
+}
+.labelDiv {
+  font-size: 12px;
+  color: gray;
+}
+.input {
+  border-radius: 5px;
+  height: 30px;
+  font-size: 15px;
+  width: 100px;
+  border: 1px solid gray;
+  outline: none;
+  margin-top: 2px;
+  padding: 0 7px;
+}
+.input:focus {
+  box-shadow: 0 0 0 2px cornflowerblue;
 }
