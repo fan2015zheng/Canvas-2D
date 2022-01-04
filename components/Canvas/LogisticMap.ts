@@ -4,6 +4,10 @@ export default class LogisticMap {
   x0: number = 0.5
   f: (x: number)=>number = (x: number)=> this.h*x*(1-x)
 
+  IsValid() {
+    return IsLogisticValid(this.h, this.x0)
+  }
+
   constructor(h: number, x0: number) {
     if(!IsLogisticValid(h, x0)) {
       return

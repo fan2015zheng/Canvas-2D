@@ -17,6 +17,7 @@ export function Canvas({coordinate, logisticMap} : ICanvasProp) {
     if(!canvas) { return }
     if(!coordinate) { return }
     if(!coordinate.IsValid()) { return }
+    if(!logisticMap) { return }
 
     Graph(canvas, coordinate, logisticMap)
   })
