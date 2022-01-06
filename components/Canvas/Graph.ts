@@ -125,7 +125,6 @@ function DataPoints(coordinate: Coordinate, logisticMap: LogisticMap) {
     points.arc(p.xPixel, p.yPixel, 1.2, 0, 2*Math.PI)
    
     points.moveTo(0,0)
-    // points = new Path2D(points)
   }
   return points
 }
