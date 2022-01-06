@@ -3,20 +3,3 @@
   display: flex;
   flex-wrap: wrap;
 }
-
-.button {
-  margin: 10px;
-  border-radius: 5px;
-  background-color: cornflowerblue;
-  color: white;
-  border: none;
-  height: 30px;
-  padding: 0 20px;
-  opacity: 0.8;
-  font-size: 16px;
-  font-weight: 500;
-}
-.button:hover {
-  cursor: pointer;
-  opacity: 1;
-}

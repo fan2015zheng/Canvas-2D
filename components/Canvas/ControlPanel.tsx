@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TextField } from "../Field/TextField"
 import cl from "./ControlPanel.module.scss"
 import Coordinate, { IsCoordinateValid } from './Cooridnate'
 import LogisticMap, { IsLogisticValid } from './LogisticMap'
+import { Button } from "../Button/Button"
 
 interface IControlPanelProp {
   apply?: (coordinate: Coordinate, logisticMap: LogisticMap) => void
@@ -29,6 +30,8 @@ export function ControlPanel({
   const [xRulePerLabel, setXRulePerLabel] = useState<number>(defaultCoordinate.xRulePerLabel)
   const [yRulePerLabel, setYRulePerLabel] = useState<number>(defaultCoordinate.yRulePerLabel)
 
+  const [redraw, setRedraw]= useState(false)
+
   const onClickApply = ()=>{
     if(
       IsCoordinateValid(maxPixelX, maxPixelY, maxX, maxY, minX, minY, 
@@ -46,6 +49,28 @@ export function ControlPanel({
       alert("Parameters are not valid")
     }
   }
+
+  const hPlus = () => {
+    const newValue = Math.round((+logisticH + 0.01)*100)/100
+    if(newValue <= 4) {
+      setLogisticH(newValue)
+      setRedraw(true)
+    }
+  }
+  const hMinus = () => {
+    const newValue =  Math.round((+logisticH - 0.01)*100)/100
+    if(newValue >=0) {
+      setLogisticH(newValue)
+      setRedraw(true)
+    }
+  }
+
+  useEffect(()=> {
+    if(!redraw) return
+    console.log("redraw")
+    setRedraw(false)
+    onClickApply()
+  })
 
   return (<>
     <div className={cl.fields}>
@@ -65,7 +90,10 @@ export function ControlPanel({
       <TextField prompt="Y Rules Per Label" value={yRulePerLabel} setValue={setYRulePerLabel} />
     </div>
     <div>
-      <button className={cl.button} onClick={onClickApply}>Apply</button>
+      <Button text="Apply" onClick={onClickApply}/>
+      <Button text="h ↑" onClick={hPlus}/>
+      <Button text="h ↓" onClick={hMinus}/>
     </div>
+
   </>)
 }
