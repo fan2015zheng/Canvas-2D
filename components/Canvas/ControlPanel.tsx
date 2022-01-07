@@ -29,18 +29,19 @@ export function ControlPanel({
   const [yLabelGap, setYLabelGap] = useState<number>(defaultCoordinate.yLabelGap)
   const [xRulePerLabel, setXRulePerLabel] = useState<number>(defaultCoordinate.xRulePerLabel)
   const [yRulePerLabel, setYRulePerLabel] = useState<number>(defaultCoordinate.yRulePerLabel)
+  const [pointRadius, setPointRadius] = useState<number>(defaultCoordinate.pointRadius)
 
   const [redraw, setRedraw]= useState(false)
 
   const onClickApply = ()=>{
     if(
       IsCoordinateValid(maxPixelX, maxPixelY, maxX, maxY, minX, minY, 
-        xLabelGap, yLabelGap, xRulePerLabel, yRulePerLabel) && 
+        xLabelGap, yLabelGap, xRulePerLabel, yRulePerLabel, pointRadius) && 
       IsLogisticValid(logisticH, logisticX0)
     ) {
       const coordinate = new Coordinate(
         maxPixelX, maxPixelY, maxX, maxY, minX, minY, originX, originY,
-        xLabelGap, yLabelGap, xRulePerLabel, yRulePerLabel
+        xLabelGap, yLabelGap, xRulePerLabel, yRulePerLabel, pointRadius
       )
       const logisticMap = new LogisticMap(logisticH, logisticX0)
      
@@ -88,6 +89,7 @@ export function ControlPanel({
       <TextField prompt="Y Label Gap" value={yLabelGap} setValue={setYLabelGap} />
       <TextField prompt="X Rules Per Label" value={xRulePerLabel} setValue={setXRulePerLabel} />
       <TextField prompt="Y Rules Per Label" value={yRulePerLabel} setValue={setYRulePerLabel} />
+      <TextField prompt="Point Radius" value={pointRadius} setValue={setPointRadius} />
     </div>
     <div>
       <Button text="Apply" onClick={onClickApply}/>

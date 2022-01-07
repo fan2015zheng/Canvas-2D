@@ -13,6 +13,7 @@ export default class Coordinate {
   yLabelGap: number = 0.1
   xRulePerLabel: number = 2
   yRulePerLabel: number = 2
+  pointRadius: number = 3
   
   xFun: (pixelX: number) => number = 
     (pixelX: number) => pixelX * (this.maxX - this.minX) / this.maxPixelX + this.minX
@@ -27,17 +28,18 @@ export default class Coordinate {
   IsValid() {
     return IsCoordinateValid(
       this.maxPixelY, this.maxPixelY, this.maxX, this.maxY,this.minX, this.minY, 
-      this.xLabelGap, this.yLabelGap, this.xRulePerLabel, this.yRulePerLabel
+      this.xLabelGap, this.yLabelGap, this.xRulePerLabel, this.yRulePerLabel, this.pointRadius
     )
   }
 
   constructor(maxPixelX: number, maxPixelY: number, maxX: number, maxY: number, 
     minX: number, minY: number, originX: number, originY: number, 
-    xLabelGap: number, yLabelGap: number, xRulePerLabel: number =2, yRulePerLabel: number = 2
+    xLabelGap: number, yLabelGap: number, xRulePerLabel: number =2, yRulePerLabel: number = 2,
+    pointRadius: number = 3
   ) {
 
     if(!IsCoordinateValid(maxPixelX, maxPixelY, maxX, maxY, minX, minY, 
-      xLabelGap, yLabelGap, xRulePerLabel, yRulePerLabel)) {
+      xLabelGap, yLabelGap, xRulePerLabel, yRulePerLabel, pointRadius)) {
         return
     }
 
@@ -59,6 +61,7 @@ export default class Coordinate {
     this.yLabelGap = +yLabelGap
     this.xRulePerLabel = +xRulePerLabel
     this.yRulePerLabel = +yRulePerLabel
+    this.pointRadius = +pointRadius
   }
 
   Point(x: number, y: number): IPoint {
@@ -86,7 +89,8 @@ export function IsCoordinateValid(
   xLabelGap: number,
   yLabelGap: number,
   xRulePerLabel: number,
-  yRulePerLabel: number
+  yRulePerLabel: number,
+  pointRadius: number
 ): boolean {
   if(maxPixelX < 100) return false
   if(maxPixelY < 100) return false
@@ -96,6 +100,7 @@ export function IsCoordinateValid(
   if(maxY - minY < Number.EPSILON) return false
   if(xRulePerLabel < 1) return false
   if(yRulePerLabel < 1) return false
+  if(pointRadius<0 || pointRadius>10) return false
   return true
 }
 

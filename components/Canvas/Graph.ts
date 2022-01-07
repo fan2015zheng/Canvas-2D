@@ -115,14 +115,14 @@ function DataPoints(coordinate: Coordinate, logisticMap: LogisticMap) {
   
   let y0 = logisticMap.x0
   const p0 = co.Point(0,y0)
-  points.arc(p0.xPixel, p0.yPixel, 3, 0, 2*Math.PI)
+  points.arc(p0.xPixel, p0.yPixel, Math.max(coordinate.pointRadius,2), 0, 2*Math.PI)
 
   const endX = Math.round(co.maxX)
   let y = y0
   for(let x=1; x<=endX; x++) {
     y = logisticMap.f(y)
     const p = co.Point(x, y)
-    points.arc(p.xPixel, p.yPixel, 1.2, 0, 2*Math.PI)
+    points.arc(p.xPixel, p.yPixel, coordinate.pointRadius, 0, 2*Math.PI)
    
     points.moveTo(0,0)
   }
