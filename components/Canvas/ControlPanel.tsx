@@ -51,24 +51,40 @@ export function ControlPanel({
     }
   }
 
+  const hPlusFast = () => {
+    hChange(0.1)
+  }
+  const hMinusFast = () => {
+    hChange(-0.1)
+  }
   const hPlus = () => {
-    const newValue = Math.round((+logisticH + 0.01)*100)/100
-    if(newValue <= 4) {
-      setLogisticH(newValue)
-      setRedraw(true)
-    }
+    hChange(0.01)
   }
   const hMinus = () => {
-    const newValue =  Math.round((+logisticH - 0.01)*100)/100
-    if(newValue >=0) {
-      setLogisticH(newValue)
-      setRedraw(true)
+    hChange(-0.01)
+  }
+
+  const hChange = (step: number) => {
+  
+    if(step > 0 && logisticH > 4 - Number.EPSILON) {
+      return
     }
+    if(step < 0 && logisticH < Number.EPSILON) {
+      return
+    }
+    let newValue = Math.round((+logisticH + step)*100)/100
+    if(newValue > 4) {
+      newValue = 4
+    }
+    if(newValue < 0) {
+      newValue = 0
+    }
+    setLogisticH(newValue)
+    setRedraw(true)
   }
 
   useEffect(()=> {
     if(!redraw) return
-    console.log("redraw")
     setRedraw(false)
     onClickApply()
   })
@@ -94,7 +110,9 @@ export function ControlPanel({
     <div>
       <Button text="Apply" onClick={onClickApply}/>
       <Button text="h ↑" onClick={hPlus}/>
+      <Button text="h ↑↑" onClick={hPlusFast}/>
       <Button text="h ↓" onClick={hMinus}/>
+      <Button text="h ↓↓" onClick={hMinusFast}/>
     </div>
 
   </>)
