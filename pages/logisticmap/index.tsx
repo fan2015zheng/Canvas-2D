@@ -4,10 +4,10 @@ import { Canvas } from "../../components/Canvas/Canvas"
 import { ControlPanel } from '../../components/Canvas/ControlPanel'
 import Coordinate from '../../components/Canvas/Cooridnate'
 import LogisticMap from '../../components/Canvas/LogisticMap'
-import { HDiv } from '../../components/Div'
+import { HDiv } from '../../components/Control/Div/Div'
 import cl from "./index.module.scss"
 
-export default function Home() {
+export default function LogisticMapHome() {
 
   const [coordinate, setCoordinate] = useState<Coordinate>(new Coordinate(0,0,0,0,0,0,0,0,0,0))
   const [logisticMap, setLogisticMap] = useState<LogisticMap>(new LogisticMap(-1,-1))

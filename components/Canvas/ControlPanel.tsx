@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { TextField } from "../Field/TextField"
+import { TextField } from "../Control/Field/TextField"
 import cl from "./ControlPanel.module.scss"
 import Coordinate, { IsCoordinateValid } from './Cooridnate'
 import LogisticMap, { IsLogisticValid } from './LogisticMap'
-import { Button } from "../Button/Button"
+import { Button } from "../Control/Button/Button"
 
 interface IControlPanelProp {
   apply?: (coordinate: Coordinate, logisticMap: LogisticMap) => void
