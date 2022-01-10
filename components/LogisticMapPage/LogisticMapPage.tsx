@@ -1,13 +1,12 @@
 import Head from 'next/head'
 import { useState } from 'react'
-import Coordinate, { ICoordinateRaw } from '../Graph/Coordinate/Coordinate'
-import LogisticMap, { ILogisticMapRaw } from '../Graph/LogisticMap/LogisticMap'
+import { ICoordinateRaw } from '../Graph/Coordinate/Coordinate'
+import { ILogisticMapRaw } from '../Graph/LogisticMap/LogisticMap'
 import { HDiv } from '../../components/Control/Div/Div'
 import cl from "./LogisticMapPage.module.scss"
 import { ControlPanel } from './ControlPanel'
 import { Canvas } from '../DrawingPad/Canvas'
 import { CoordinateParameterPanel } from "../DrawingPad/CoordinateParameterPanel"
-import { Erase } from '../Graph/Eraser'
 
 export default function LogisticMapPage() {
   
@@ -34,20 +33,6 @@ export default function LogisticMapPage() {
 
   const [redraw, setRedraw] = useState<boolean>(true)
 
-  const Draw = (canvas: HTMLCanvasElement) => {
-    console.log("Draw =" + redraw)
-    if(!redraw) return
-    if(!Coordinate.IsValid(coordinateRaw)) return
-    if(!LogisticMap.IsValid(logisticMapRaw)) return
-    Erase(canvas)
-    const coordinate = new Coordinate(coordinateRaw)
-    const logisticMap = new LogisticMap(logisticMapRaw)
-    coordinate.Draw(canvas)
-    logisticMap.Draw(canvas, coordinate)
-
-    setRedraw(false)
-  }
-
   return (<>
     <Head>
       <title>Logistic Map</title>
@@ -62,10 +47,8 @@ export default function LogisticMapPage() {
       <HDiv height={10} />
       <div className={cl.drawingPad}>
         <div className={cl.canvasDiv}>
-          {
-            coordinateRaw.maxPixelX && coordinateRaw.maxPixelY ?
-            <Canvas width={+coordinateRaw.maxPixelX!} height={+coordinateRaw.maxPixelY!} Draw={Draw}/> : null
-          }
+          <Canvas coordinateRaw={coordinateRaw} logisticMapRaw={logisticMapRaw}
+            redraw={redraw} setRedraw={setRedraw}/>
         </div>
         <div className={cl.coordinateControlPanelDiv}>
           <CoordinateParameterPanel coordinateRaw={coordinateRaw} setCoordinateRaw={setCoordinateRaw}/>
