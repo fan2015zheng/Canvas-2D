@@ -1,8 +1,13 @@
 import cl from "./TextField.module.scss"
 
-export function TextField({ prompt, value, setValue }) {
+export function TextField({ prompt, value, setValue, width = 0}) {
+
+  const style = {}
+  if(width) {
+    style.width = width + "px"
+  }
   return(<>
-    <div className={cl.field}>
+    <div className={cl.field} style={style}>
       <div className={cl.labelDiv}>
         <label>{prompt}</label>
       </div>

@@ -1,0 +1,12 @@
+.wrap {
+  display: flex;
+}
+.canvasDiv {
+  flex-grow: 1;
+  overflow: auto;
+}
+.fields {
+  display: grid;
+  grid-template-columns: 80px 80px;
+  grid-column-gap: 5px;
+}

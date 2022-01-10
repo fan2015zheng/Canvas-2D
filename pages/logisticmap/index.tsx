@@ -5,6 +5,7 @@ import { ControlPanel } from '../../components/Canvas/ControlPanel'
 import Coordinate from '../../components/Canvas/Cooridnate'
 import LogisticMap from '../../components/Canvas/LogisticMap'
 import { HDiv } from '../../components/Control/Div/Div'
+import LogisticMapPage from '../../components/LogisticMapPage/LogisticMapPage'
 import cl from "./index.module.scss"
 
 export default function LogisticMapHome() {
@@ -20,20 +21,11 @@ export default function LogisticMapHome() {
   return (<>
     <Head>
       <title>Logistic Map</title>
-      <meta name="description" content="Canvas 2D drawing" />
+      <meta name="description" content="Logistic Map Graph" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <div className={cl.wrap}>
-      <div className={cl.title}>Logistic Map </div>
-      <div className={cl.subTitle}>x-axis is nonnegative integer n</div>
-      <div className={cl.subTitle}>y-axis is f(...f(f(x0))) where f(x)=hx(1-x) is applied n times starting with initial value x0. Parameter 0&lt;h&lt;4 so that f maps [0,1] into [0,1]</div>
-      <HDiv height={10} />
-      <Canvas coordinate={coordinate} logisticMap={logisticMap}/>
-      <HDiv height={10} />
-      <ControlPanel apply={apply} defaultCoordinate={coordinate}
-        defaultLogisticMap={logisticMap}/>
-    </div>
+    <LogisticMapPage />
 
   </>)
 }

@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "components/DrawingPad/Canvas.js"  ],
   "exclude": [
     "node_modules"
   ]
