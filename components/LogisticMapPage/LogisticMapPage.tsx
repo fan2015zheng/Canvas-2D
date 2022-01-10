@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { useState } from 'react'
 import { ICoordinateRaw } from '../Graph/Coordinate/Coordinate'
 import { ILogisticMapRaw } from '../Graph/LogisticMap/LogisticMap'
@@ -34,12 +33,6 @@ export default function LogisticMapPage() {
   const [redraw, setRedraw] = useState<boolean>(true)
 
   return (<>
-    <Head>
-      <title>Logistic Map</title>
-      <meta name="description" content="Canvas 2D drawing" />
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
-
     <div className={cl.wrap}>
       <div className={cl.title}>Logistic Map </div>
       <div className={cl.subTitle}>x-axis is nonnegative integer n</div>
