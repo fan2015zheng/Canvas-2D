@@ -1,86 +1,96 @@
 import { GraphCoordinate } from "./GraphCoordinate"
 
-export class CoordinateRaw {
-  maxPixelX: number | string = ""
-  maxPixelY: number | string = ""
-  maxX: number | string = ""
-  maxY: number | string = ""
-  minX: number | string = ""
-  minY: number | string = ""
-  originX: number | string = ""
-  originY: number | string = ""
-  xLabelGap: number | string = ""
-  yLabelGap: number | string = ""
-  xRulePerLabel: number | string = ""
-  yRulePerLabel: number | string = ""
+export interface ICoordinateRaw {
+  maxPixelX: string | number
+  maxPixelY: string | number
+  maxX: string | number
+  maxY: string | number
+  minX: string | number
+  minY: string | number
+  originX: string | number
+  originY: string | number
+  xLabelGap: string | number
+  yLabelGap: string | number
+  xRulePerLabel: string | number
+  yRulePerLabel: string | number
 }
 
-export default class Coordinate {
+export default class Coordinate implements ICoordinateRaw {
 
-  maxPixelX?: number
-  maxPixelY?: number
-  maxX?: number
-  maxY?: number
-  minX?: number
-  minY?: number
-  originX?: number
-  originY?: number
-  xLabelGap?: number
-  yLabelGap?: number
-  xRulePerLabel?: number
-  yRulePerLabel?: number
+  maxPixelX: number
+  maxPixelY: number
+  maxX: number
+  maxY: number
+  minX: number
+  minY: number
+  originX: number
+  originY: number
+  xLabelGap: number
+  yLabelGap: number
+  xRulePerLabel: number
+  yRulePerLabel: number
   
-  xFun?: (pixelX: number) => number
-  yFun?: (pixelY: number) => number
-  xInvFun?: (x: number) => number 
-  yInvFun?: (y: number) => number
+  xFun: (pixelX: number) => number
+  yFun: (pixelY: number) => number
+  xInvFun: (x: number) => number 
+  yInvFun: (y: number) => number
 
-  IsValid() {
-    return IsCoordinateValid(
-      this.maxPixelX, this.maxPixelY, this.maxX, this.maxY,this.minX, this.minY, 
-      this.xLabelGap, this.yLabelGap, this.xRulePerLabel, this.yRulePerLabel
-    )
+  static IsValid(co: ICoordinateRaw): boolean {
+    if(!co) return false
+    if(co.maxPixelX === undefined || isNaN(+co.maxPixelX)) return false
+    if(co.maxPixelY === undefined  || isNaN(+co.maxPixelY)) return false
+    if(co.maxX === undefined  || isNaN(+co.maxX)) return false
+    if(co.maxY === undefined  || isNaN(+co.maxY)) return false
+    if(co.minX === undefined  || isNaN(+co.minX)) return false
+    if(co.minY === undefined  || isNaN(+co.minY)) return false
+    if(co.xLabelGap === undefined  || isNaN(+co.xLabelGap)) return false
+    if(co.yLabelGap === undefined  || isNaN(+co.yLabelGap)) return false
+    if(co.xRulePerLabel === undefined  || isNaN(+co.xRulePerLabel)) return false
+    if(co.yRulePerLabel === undefined  || isNaN(+co.yRulePerLabel)) return false
+  
+    if(co.maxPixelX < 1) return false
+    if(co.maxPixelY < 1) return false
+    if(co.xLabelGap < Number.EPSILON) return false
+    if(co.yLabelGap < Number.EPSILON) return false
+    if(+co.maxX - +co.minX < Number.EPSILON) return false
+    if(+co.maxY - +co.minY < Number.EPSILON) return false
+    if(co.xRulePerLabel < 1) return false
+    if(co.yRulePerLabel < 1) return false
+    return true
   }
 
-  constructor(maxPixelX?: number, maxPixelY?: number, maxX?: number, maxY?: number, 
-    minX?: number, minY?: number, originX?: number, originY?: number, 
-    xLabelGap?: number, yLabelGap?: number, xRulePerLabel?: number, yRulePerLabel?: number
-  ) {
+  constructor(co: ICoordinateRaw) {
 
-    if(IsCoordinateValid(maxPixelX, maxPixelY, maxX, maxY, minX, minY, 
-      xLabelGap, yLabelGap, xRulePerLabel, yRulePerLabel)) {
-
-        this.maxPixelX = +maxPixelX!
-        this.maxPixelY = +maxPixelY!
-        this.maxX = +maxX!
-        this.maxY = +maxY!
-        this.minX = +minX!
-        this.minY = +minY!
-        this.originX = +originX!
-        this.originY = +originY!
-        this.xLabelGap = +xLabelGap!
-        this.yLabelGap = +yLabelGap!
-        this.xRulePerLabel = +xRulePerLabel!
-        this.yRulePerLabel = +yRulePerLabel!
-
-        this.xFun = (pixelX: number) => pixelX * (maxX! - minX!) / maxPixelX! + minX!
-        this.yFun = (pixelY: number) => pixelY * (minY! - maxY!) / maxPixelY! + maxY!
-        this.xInvFun = (x) => (x - minX!) * maxPixelX! / (maxX! - minX!)
-        this.yInvFun = (y) => (y - maxY!) * maxPixelY! / (minY! - maxY!)
+    if(!Coordinate.IsValid(co)) {
+      throw Error("Invalid Coordinate")
     }
-  }
 
-  Copy(): Coordinate {
-    return new Coordinate(this.maxPixelX, this.maxPixelY,
-      this.maxX, this.maxY, this.minX, this.minY, this.originX, this.originY,
-      this.xLabelGap, this.yLabelGap, this.xRulePerLabel, this.yRulePerLabel)
+    this.maxPixelX = +co.maxPixelX!
+    this.maxPixelY = +co.maxPixelY!
+    this.maxX = +co.maxX!
+    this.maxY = +co.maxY!
+    this.minX = +co.minX!
+    this.minY = +co.minY!
+    this.originX = +co.originX!
+    this.originY = +co.originY!
+    this.xLabelGap = +co.xLabelGap!
+    this.yLabelGap = +co.yLabelGap!
+    this.xRulePerLabel = +co.xRulePerLabel!
+    this.yRulePerLabel = +co.yRulePerLabel!
+
+    this.xFun = (pixelX: number) => pixelX * (+co.maxX! - +co.minX!) / +co.maxPixelX! + +co.minX!
+    this.yFun = (pixelY: number) => pixelY * (+co.minY! - +co.maxY!) / +co.maxPixelY! + +co.maxY!
+    this.xInvFun = (x) => (x - +co.minX!) * +co.maxPixelX! / (+co.maxX! - +co.minX!)
+    this.yInvFun = (y) => (y - +co.maxY!) * +co.maxPixelY! / (+co.minY! - +co.maxY!)
+    
   }
 
   Point(x: number, y: number): IPoint {
     return {
-      x, y,
-      xPixel: this.xInvFun?(x) : undefined,
-      yPixel: this.yInvFun?(y) : undefined
+      x, 
+      y,
+      xPixel: this.xInvFun(x),
+      yPixel: this.yInvFun(y)
     }
   }
 
@@ -95,43 +105,9 @@ export default class Coordinate {
   }
 }
 
-export function IsCoordinateValid(
-  maxPixelX?: number,
-  maxPixelY?: number,
-  maxX?: number,
-  maxY?: number,
-  minX?: number,
-  minY?: number,
-  xLabelGap?: number,
-  yLabelGap?: number,
-  xRulePerLabel?: number,
-  yRulePerLabel?: number
-): boolean {
-  if(maxPixelX === undefined || isNaN(maxPixelX)) return false
-  if(maxPixelY === undefined  || isNaN(maxPixelY)) return false
-  if(maxX === undefined  || isNaN(maxX)) return false
-  if(maxY === undefined  || isNaN(maxY)) return false
-  if(minX === undefined  || isNaN(minX)) return false
-  if(minY === undefined  || isNaN(minY)) return false
-  if(xLabelGap === undefined  || isNaN(xLabelGap)) return false
-  if(yLabelGap === undefined  || isNaN(yLabelGap)) return false
-  if(xRulePerLabel === undefined  || isNaN(xRulePerLabel)) return false
-  if(yRulePerLabel === undefined  || isNaN(yRulePerLabel)) return false
-
-  if(maxPixelX < 1) return false
-  if(maxPixelY < 1) return false
-  if(xLabelGap < Number.EPSILON) return false
-  if(yLabelGap < Number.EPSILON) return false
-  if(maxX - minX < Number.EPSILON) return false
-  if(maxY - minY < Number.EPSILON) return false
-  if(xRulePerLabel < 1) return false
-  if(yRulePerLabel < 1) return false
-  return true
-}
-
 interface IPoint {
   x: number,
   y: number,
-  xPixel?: number,
-  yPixel?: number
+  xPixel: number,
+  yPixel: number
 }

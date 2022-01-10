@@ -1,24 +1,27 @@
 import { useState } from 'react'
-import Coordinate from "../Graph/Coordinate/Coordinate"
-import LogisticMap, { IsLogisticMapValid } from "../Graph/LogisticMap/LogisticMap"
+import { ICoordinateRaw } from "../Graph/Coordinate/Coordinate"
+import { ILogisticMapRaw } from "../Graph/LogisticMap/LogisticMap"
 import { ParameterPanel } from './ParameterPanel'
 import { ButtonPanel } from './ButtonPanel'
 
 interface IControlPanelProp {
-  coordinate: Coordinate, 
-  setCoordinate: (coordinate: Coordinate) => void,
-  logisticMap: LogisticMap
+  coordinateRaw: ICoordinateRaw, 
+  setCoordinateRaw: (coordinateRaw: ICoordinateRaw) => void,
+  logisticMapRaw: ILogisticMapRaw,
+  setLogisticMapRaw: (logisticMapRaw: ILogisticMapRaw) => void
+  setRedraw: (redraw: boolean) => void
 }
 
 export function ControlPanel({
-  coordinate, setCoordinate,
-  logisticMap
+  coordinateRaw, setCoordinateRaw,
+  logisticMapRaw, setLogisticMapRaw,
+  setRedraw
 }: IControlPanelProp) {
-  const [logisticMap1, setLogisticMap1] = useState<LogisticMap>(logisticMap)
 
   return (<>
-    <ParameterPanel logisticMap={logisticMap1} setLogisticMap={setLogisticMap1}/>
-    <ButtonPanel coordinate={coordinate} setCoordinate={setCoordinate}
-      logisticMap={logisticMap1} setLogisticMap={setLogisticMap1}/>
+    <ParameterPanel logisticMapRaw={logisticMapRaw} setLogisticMapRaw={setLogisticMapRaw}/>
+    <ButtonPanel coordinateRaw={coordinateRaw} setCoordinateRaw={setCoordinateRaw}
+      logisticMapRaw={logisticMapRaw} setLogisticMapRaw={setLogisticMapRaw}
+      setRedraw={setRedraw}/>
   </>)
 }

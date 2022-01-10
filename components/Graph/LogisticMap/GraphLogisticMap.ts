@@ -11,9 +11,7 @@ export function GraphLogisticMap(canvas: HTMLCanvasElement,
 
   const points = DataPoints(coordinate, logisticMapParam)
   ctx.fill(points)
-  
 }
-
 
 function DataPoints(coordinate: Coordinate, logisticMapParam: LogisticMap) {
   const co = coordinate

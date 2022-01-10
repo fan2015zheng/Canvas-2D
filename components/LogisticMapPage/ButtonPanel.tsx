@@ -1,30 +1,29 @@
 import { useEffect, useState } from 'react'
-import Coordinate from "../Graph/Coordinate/Coordinate"
-import LogisticMap, { IsLogisticMapValid } from "../Graph/LogisticMap/LogisticMap"
+import Coordinate, { ICoordinateRaw } from "../Graph/Coordinate/Coordinate"
+import LogisticMap, { ILogisticMapRaw } from "../Graph/LogisticMap/LogisticMap"
 import { Button } from "../Control/Button/Button"
 
 interface IButtonPanelProp {
-  coordinate: Coordinate,
-  setCoordinate: (coordinate: Coordinate) => void
-  logisticMap: LogisticMap,
-  setLogisticMap: (logisticMap: LogisticMap) => void
+  coordinateRaw: ICoordinateRaw,
+  setCoordinateRaw: (coordinateRaw: ICoordinateRaw) => void
+  logisticMapRaw: ILogisticMapRaw,
+  setLogisticMapRaw: (logisticMapRaw: ILogisticMapRaw) => void
+  setRedraw: (redraw: boolean) => void
 }
 
 export function ButtonPanel({
-  coordinate, setCoordinate, logisticMap, setLogisticMap
+  coordinateRaw, setCoordinateRaw, logisticMapRaw, setLogisticMapRaw,
+  setRedraw
 }: IButtonPanelProp) {
-  
-  const [redraw, setRedraw]= useState(false)
 
   const onClickApply = ()=>{
-    if(
-      coordinate.IsValid() && logisticMap.IsValid()
-    ) {
-      setCoordinate(coordinate.Copy())
-      setLogisticMap(logisticMap.Copy())
-    } else {
-      alert("Parameters are not valid")
+    if(!Coordinate.IsValid(coordinateRaw)) {
+      alert("Coordinate parameters are not valid")
     }
+    if(!LogisticMap.IsValid(logisticMapRaw)) {
+      alert("Logistic Map parameters are not valid")
+    }
+    setRedraw(true)
   }
 
   const hPlusFast = () => {
@@ -42,29 +41,23 @@ export function ButtonPanel({
 
   const hChange = (step: number) => {
   
-    if(step > 0 && logisticMap.h !== undefined && logisticMap.h > 4 - Number.EPSILON) {
+    if(step > 0 && logisticMapRaw.h !== undefined && logisticMapRaw.h > 4 - Number.EPSILON) {
       return
     }
-    if(step < 0 && logisticMap.h !== undefined && logisticMap.h < Number.EPSILON) {
+    if(step < 0 && logisticMapRaw.h !== undefined && logisticMapRaw.h < Number.EPSILON) {
       return
     }
-    logisticMap.h = logisticMap.h || 0
-    let newValue = Math.round((+logisticMap.h + step)*100)/100
+    
+    let newValue = Math.round((+logisticMapRaw.h! + step)*100)/100
     if(newValue > 4) {
       newValue = 4
     }
     if(newValue < 0) {
       newValue = 0
     }
-    setLogisticMap(logisticMap.Copy())
+    setLogisticMapRaw({...logisticMapRaw, h: newValue})
     setRedraw(true)
   }
-
-  useEffect(()=> {
-    if(!redraw) return
-    setRedraw(false)
-    onClickApply()
-  })
 
   return (<>
     <div>

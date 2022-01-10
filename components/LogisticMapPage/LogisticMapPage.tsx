@@ -1,22 +1,51 @@
 import Head from 'next/head'
 import { useState } from 'react'
-import Coordinate from '../Graph/Coordinate/Coordinate'
-import LogisticMap from '../Graph/LogisticMap/LogisticMap'
+import Coordinate, { ICoordinateRaw } from '../Graph/Coordinate/Coordinate'
+import LogisticMap, { ILogisticMapRaw } from '../Graph/LogisticMap/LogisticMap'
 import { HDiv } from '../../components/Control/Div/Div'
 import cl from "./LogisticMapPage.module.scss"
 import { ControlPanel } from './ControlPanel'
 import { Canvas } from '../DrawingPad/Canvas'
 import { CoordinateParameterPanel } from "../DrawingPad/CoordinateParameterPanel"
+import { Erase } from '../Graph/Eraser'
 
 export default function LogisticMapPage() {
+  
+  const [coordinateRaw, setCoordinateRaw] = useState<ICoordinateRaw>({
+    maxPixelX: 800,
+    maxPixelY: 400,
+    maxX: 100,
+    maxY: 1.05,
+    minX: -10,
+    minY: -0.1,
+    originX: 0,
+    originY: 0,
+    xLabelGap: 10,
+    yLabelGap: 0.1,
+    xRulePerLabel: 2, 
+    yRulePerLabel: 2
+  })
 
-  const [coordinate, setCoordinate] = useState<Coordinate>(
-    new Coordinate(800, 400, 100, 1.05, -10, -0.1, 0, 0, 10, 0.1, 2, 2))
-  const [logisticMap, setLogisticMap] = useState<LogisticMap>(
-    new LogisticMap(1, 0.3, 3))
+  const [logisticMapRaw, setLogisticMapRaw] = useState<ILogisticMapRaw>({
+    h: 1,
+    x0: 0.3,
+    pointRadius: 3
+  })
+
+  const [redraw, setRedraw] = useState<boolean>(true)
 
   const Draw = (canvas: HTMLCanvasElement) => {
-    
+    console.log("Draw =" + redraw)
+    if(!redraw) return
+    if(!Coordinate.IsValid(coordinateRaw)) return
+    if(!LogisticMap.IsValid(logisticMapRaw)) return
+    Erase(canvas)
+    const coordinate = new Coordinate(coordinateRaw)
+    const logisticMap = new LogisticMap(logisticMapRaw)
+    coordinate.Draw(canvas)
+    logisticMap.Draw(canvas, coordinate)
+
+    setRedraw(false)
   }
 
   return (<>
@@ -34,16 +63,18 @@ export default function LogisticMapPage() {
       <div className={cl.drawingPad}>
         <div className={cl.canvasDiv}>
           {
-            !coordinate.maxPixelX && !coordinate.maxPixelY ?
-            <Canvas width={coordinate.maxPixelX!} height={coordinate.maxPixelY!} Draw={Draw}/> : null
+            coordinateRaw.maxPixelX && coordinateRaw.maxPixelY ?
+            <Canvas width={+coordinateRaw.maxPixelX!} height={+coordinateRaw.maxPixelY!} Draw={Draw}/> : null
           }
         </div>
         <div className={cl.coordinateControlPanelDiv}>
-          <CoordinateParameterPanel coordinate={coordinate} setCoordinate={setCoordinate}/>
+          <CoordinateParameterPanel coordinateRaw={coordinateRaw} setCoordinateRaw={setCoordinateRaw}/>
         </div>
       </div>
       <HDiv height={10} />
-      <ControlPanel coordinate={coordinate} setCoordinate={setCoordinate} logisticMap={logisticMap}/>
+      <ControlPanel coordinateRaw={coordinateRaw} setCoordinateRaw={setCoordinateRaw} 
+        logisticMapRaw={logisticMapRaw} setLogisticMapRaw={setLogisticMapRaw}
+        setRedraw={setRedraw}/>
     </div>
   </>)
 }

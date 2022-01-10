@@ -1,41 +1,31 @@
 import { TextField } from "../Control/Field/TextField"
 import cl from "./ParameterPanel.module.scss"
-import LogisticMap from "../Graph/LogisticMap/LogisticMap"
+import { ILogisticMapRaw } from "../Graph/LogisticMap/LogisticMap"
 
 interface IParameterPanelProp {
-  logisticMap: LogisticMap,
-  setLogisticMap: (logisticMap: LogisticMap) => void
+  logisticMapRaw: ILogisticMapRaw,
+  setLogisticMapRaw: (logisticMapRaw: ILogisticMapRaw) => void
 }
 
 export function ParameterPanel({
-  logisticMap,
-  setLogisticMap
+  logisticMapRaw,
+  setLogisticMapRaw
 }: IParameterPanelProp) {
 
-  function setLogisticH(value: number) {
-    logisticMap.h = +value
-    setLogisticMap(logisticMap.Copy())
-  }
-  function setLogisticX0(value: number) {
-    logisticMap.x0 = +value
-    setLogisticMap(logisticMap.Copy())
-  }
-  function setPointRadius(value: number) {
-    logisticMap.pointRadius = +value
-    setLogisticMap(logisticMap.Copy())
-  }
-  
+  function setH(h: string) { setLogisticMapRaw({...logisticMapRaw, h}) }
+  function setX0(x0: string) { setLogisticMapRaw({...logisticMapRaw, x0}) }
+  function setPointRadius(pointRadius: string) { setLogisticMapRaw({...logisticMapRaw, pointRadius}) }
 
   return (<>
     <div className={cl.fields}>
       <div className={cl.fieldDiv}>
-        <TextField prompt="Parameter h" value={logisticMap.h} setValue={setLogisticH} />
+        <TextField prompt="Parameter h" value={logisticMapRaw.h} setValue={setH} />
       </div>
       <div className={cl.fieldDiv}>
-        <TextField prompt="Initial x0" value={logisticMap.x0} setValue={setLogisticX0} />
+        <TextField prompt="Initial x0" value={logisticMapRaw.x0} setValue={setX0} />
       </div>
       <div className={cl.fieldDiv}>
-        <TextField prompt="Point Radius" value={logisticMap.pointRadius} setValue={setPointRadius} />
+        <TextField prompt="Point Radius" value={logisticMapRaw.pointRadius} setValue={setPointRadius} />
       </div>
     </div>
   </>)

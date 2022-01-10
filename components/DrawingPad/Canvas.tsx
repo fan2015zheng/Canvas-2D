@@ -1,10 +1,9 @@
 import { useEffect, useRef } from "react"
-import { Erase } from "../Graph/Eraser"
 
 interface ICanvasProp {
   width: number
   height: number
-  Draw: (canvas: HTMLCanvasElement) => void
+  Draw: (canvas: HTMLCanvasElement) => void,
 }
 
 export function Canvas({width, height, Draw} : ICanvasProp) {
@@ -14,7 +13,9 @@ export function Canvas({width, height, Draw} : ICanvasProp) {
   useEffect(()=>{
     const canvas = canvasRef.current
     if(!canvas) { return }
+   
     Draw(canvas)
+    
   })
 
   return(<>
