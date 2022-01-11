@@ -7,6 +7,7 @@ import cl from "./TunnelDiodePage.module.scss"
 import { ISlopeFieldRaw, SlopeField } from '../Graph/SlopeField/SlopeField'
 import { TunnelDiode } from '../Graph/TunnelDiodeCircuit/TunnelDiode'
 import { ITunnelDiodeRaw } from "../Graph/TunnelDiodeCircuit/TunnelDiode"
+import { DiodeParameterPanel } from './DiodeParameterPanel'
 
 export function TunnelDiodePage() {
   
@@ -30,6 +31,8 @@ export function TunnelDiodePage() {
     x1: 1, y1: 2, x2: 2, y2: 1, x3: 3, y3: 2, lineWidth: 1})
 
   function DiodeDraw(canvas: HTMLCanvasElement) {
+    if(!Coordinate.IsValid(diodeCoordinateRaw)) return
+    if(!TunnelDiode.IsValid(diodeRaw)) return
     const coordinate = new Coordinate(diodeCoordinateRaw)
     const diode = new TunnelDiode(diodeRaw)
     coordinate.Draw(canvas)
@@ -48,7 +51,7 @@ export function TunnelDiodePage() {
 
       <DrawingPad coordinateRaw={diodeCoordinateRaw} setCoordinateRaw={setDiodeCoordinateRaw} 
         Draw={DiodeDraw}/>
-
+      <DiodeParameterPanel tunnelDiodeRaw={diodeRaw} setTunnelDiodeRaw={setDiodeRaw}/>
       <HDiv height={10} />
 
       <DrawingPad coordinateRaw={circuitCoordinateRaw} setCoordinateRaw={setCircuitCoordinateRaw} 
