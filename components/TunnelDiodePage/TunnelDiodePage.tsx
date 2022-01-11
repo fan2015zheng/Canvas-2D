@@ -24,17 +24,17 @@ export function TunnelDiodePage() {
   const [circuitCoordinateRaw, setCircuitCoordinateRaw] = useState<ICoordinateRaw>({
     maxPixelX: 600, maxPixelY: 300,
     maxX: 200, maxY: 200,
-    minX: -200, minY: -200,
+    minX: -20, minY: -200,
     originX: 0, originY: 0,
-    xLabelGap: 50, yLabelGap: 50,
+    xLabelGap: 20, yLabelGap: 50,
     xRulePerLabel: 2, yRulePerLabel: 2
   })
   const [diodeRaw, setDiodeRaw] = useState<ITunnelDiodeRaw>({
     x1: 1, y1: 2, x2: 2, y2: 1, x3: 3, y3: 2, lineWidth: 1})
   
   const [circuitRaw, setCircuitRaw] = useState<ITunnelDiodeCircuitRaw>({
-    R: 1, C: 1, L: 1, E: 1,
-    lineWidth: 1, timeStep: 0.01, voltageC0: 1, currentL0: 1
+    R: 10, C: 10, L: 10, E: 10,
+    lineWidth: 1, timeStep: 0.01, voltageC0: 10, currentL0: -10
   })
 
   function DiodeDraw(canvas: HTMLCanvasElement) {
