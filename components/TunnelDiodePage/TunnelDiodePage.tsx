@@ -10,15 +10,16 @@ import { ITunnelDiodeRaw } from "../Graph/TunnelDiodeCircuit/TunnelDiode"
 import { DiodeParameterPanel } from './DiodeParameterPanel'
 import { ITunnelDiodeCircuitRaw, TunnelDiodeCircuit } from '../Graph/TunnelDiodeCircuit/TunnelDiodeCircuit'
 import { CircuitParameterPanel } from './CircuitParameterPanel'
+import { GraphERLine } from '../Graph/TunnelDiodeCircuit/GraphTunnelDiode'
 
 export function TunnelDiodePage() {
   
   const [diodeCoordinateRaw, setDiodeCoordinateRaw] = useState<ICoordinateRaw>({
     maxPixelX: 600, maxPixelY: 300,
-    maxX: 5, maxY: 5,
-    minX: -2, minY: -2,
+    maxX: 50, maxY: 50,
+    minX: -10, minY: -10,
     originX: 0, originY: 0,
-    xLabelGap: 1, yLabelGap: 1,
+    xLabelGap: 10, yLabelGap: 10,
     xRulePerLabel: 2, yRulePerLabel: 2
   })
   const [circuitCoordinateRaw, setCircuitCoordinateRaw] = useState<ICoordinateRaw>({
@@ -30,7 +31,7 @@ export function TunnelDiodePage() {
     xRulePerLabel: 2, yRulePerLabel: 2
   })
   const [diodeRaw, setDiodeRaw] = useState<ITunnelDiodeRaw>({
-    x1: 1, y1: 2, x2: 2, y2: 1, x3: 3, y3: 2, lineWidth: 1})
+    x1: 10, y1: 20, x2: 20, y2: 10, x3: 30, y3: 20, lineWidth: 1})
   
   const [circuitRaw, setCircuitRaw] = useState<ITunnelDiodeCircuitRaw>({
     R: 10, C: 10, L: 10, E: 10,
@@ -44,6 +45,10 @@ export function TunnelDiodePage() {
     const diode = new TunnelDiode(diodeRaw)
     coordinate.Draw(canvas)
     diode.Draw(canvas, coordinate)
+
+    if(!TunnelDiodeCircuit.IsValid(circuitRaw)) return
+    const circuit = new TunnelDiodeCircuit(circuitRaw, diode)
+    GraphERLine(canvas, coordinate, circuit.E, circuit.R)
   }
 
   function CircuitDraw(canvas: HTMLCanvasElement) {
