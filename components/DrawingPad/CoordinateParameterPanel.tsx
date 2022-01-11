@@ -20,7 +20,7 @@ export function CoordinateParameterPanel({
   function setOriginX(originX: string) {setCoordinateRaw({...coordinateRaw, originX}) }
   function setOriginY(originY: string) {setCoordinateRaw({...coordinateRaw, originY}) }
   function setXLabelGap(xLabelGap: string) {setCoordinateRaw({...coordinateRaw, xLabelGap}) }
-  function setYLabelGap(maxPixelX: string) {setCoordinateRaw({...coordinateRaw, maxPixelX}) }
+  function setYLabelGap(yLabelGap: string) {setCoordinateRaw({...coordinateRaw, yLabelGap}) }
   function setXRulePerLabel(xRulePerLabel: string) {setCoordinateRaw({...coordinateRaw, xRulePerLabel}) }
   function setYRulePerLabel(yRulePerLabel: string) {setCoordinateRaw({...coordinateRaw, yRulePerLabel}) }
   

@@ -8,6 +8,8 @@ import { ISlopeFieldRaw, SlopeField } from '../Graph/SlopeField/SlopeField'
 import { TunnelDiode } from '../Graph/TunnelDiodeCircuit/TunnelDiode'
 import { ITunnelDiodeRaw } from "../Graph/TunnelDiodeCircuit/TunnelDiode"
 import { DiodeParameterPanel } from './DiodeParameterPanel'
+import { ITunnelDiodeCircuitRaw, TunnelDiodeCircuit } from '../Graph/TunnelDiodeCircuit/TunnelDiodeCircuit'
+import { CircuitParameterPanel } from './CircuitParameterPanel'
 
 export function TunnelDiodePage() {
   
@@ -29,6 +31,11 @@ export function TunnelDiodePage() {
   })
   const [diodeRaw, setDiodeRaw] = useState<ITunnelDiodeRaw>({
     x1: 1, y1: 2, x2: 2, y2: 1, x3: 3, y3: 2, lineWidth: 1})
+  
+  const [circuitRaw, setCircuitRaw] = useState<ITunnelDiodeCircuitRaw>({
+    R: 1, C: 1, L: 1, E: 1,
+    lineWidth: 1, timeStep: 0.01, voltageC0: 1, currentL0: 1
+  })
 
   function DiodeDraw(canvas: HTMLCanvasElement) {
     if(!Coordinate.IsValid(diodeCoordinateRaw)) return
@@ -40,7 +47,14 @@ export function TunnelDiodePage() {
   }
 
   function CircuitDraw(canvas: HTMLCanvasElement) {
-
+    if(!Coordinate.IsValid(circuitCoordinateRaw)) return
+    if(!TunnelDiode.IsValid(diodeRaw)) return
+    if(!TunnelDiodeCircuit.IsValid(circuitRaw)) return
+    const coordinate = new Coordinate(circuitCoordinateRaw)
+    const diode = new TunnelDiode(diodeRaw)
+    const circuit = new TunnelDiodeCircuit(circuitRaw, diode)
+    coordinate.Draw(canvas)
+    circuit.Draw(canvas, coordinate)
   }
 
   return (<>
@@ -56,6 +70,7 @@ export function TunnelDiodePage() {
 
       <DrawingPad coordinateRaw={circuitCoordinateRaw} setCoordinateRaw={setCircuitCoordinateRaw} 
         Draw={CircuitDraw}/>
+      <CircuitParameterPanel circuitRaw={circuitRaw} setCircuitRaw={setCircuitRaw}/>
     </div>
   </>)
 }
