@@ -19,7 +19,7 @@ export function TunnelDiodeButtonPanel({
   }
   function EMinus() {
     EChange(-dE)
-  }
+  } 
 
   function EChange(dE: number) {
     if(dE === undefined || isNaN(dE)) return
