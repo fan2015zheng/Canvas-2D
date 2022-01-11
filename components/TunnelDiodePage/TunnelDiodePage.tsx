@@ -11,32 +11,35 @@ import { DiodeParameterPanel } from './DiodeParameterPanel'
 import { ITunnelDiodeCircuitRaw, TunnelDiodeCircuit } from '../Graph/TunnelDiodeCircuit/TunnelDiodeCircuit'
 import { CircuitParameterPanel } from './CircuitParameterPanel'
 import { GraphERLine } from '../Graph/TunnelDiodeCircuit/GraphTunnelDiode'
+import { TunnelDiodeButtonPanel } from './TunnelDiodeButtonPanel'
 
 export function TunnelDiodePage() {
   
   const [diodeCoordinateRaw, setDiodeCoordinateRaw] = useState<ICoordinateRaw>({
     maxPixelX: 600, maxPixelY: 300,
-    maxX: 50, maxY: 50,
-    minX: -10, minY: -10,
+    maxX: 300, maxY: 50,
+    minX: -50, minY: -5,
     originX: 0, originY: 0,
-    xLabelGap: 10, yLabelGap: 10,
-    xRulePerLabel: 2, yRulePerLabel: 2
+    xLabelGap: 50, yLabelGap: 5,
+    xRulePerLabel: 5, yRulePerLabel: 2
   })
   const [circuitCoordinateRaw, setCircuitCoordinateRaw] = useState<ICoordinateRaw>({
     maxPixelX: 600, maxPixelY: 300,
-    maxX: 200, maxY: 200,
-    minX: -20, minY: -200,
+    maxX: 3000, maxY: 220,
+    minX: -250, minY: -20,
     originX: 0, originY: 0,
-    xLabelGap: 20, yLabelGap: 50,
-    xRulePerLabel: 2, yRulePerLabel: 2
+    xLabelGap: 500, yLabelGap: 50,
+    xRulePerLabel: 2, yRulePerLabel: 5
   })
   const [diodeRaw, setDiodeRaw] = useState<ITunnelDiodeRaw>({
-    x1: 10, y1: 20, x2: 20, y2: 10, x3: 30, y3: 20, lineWidth: 1})
+    x1: 50, y1: 25, x2: 100, y2: 5, x3: 200, y3: 20, lineWidth: 2})
   
   const [circuitRaw, setCircuitRaw] = useState<ITunnelDiodeCircuitRaw>({
-    R: 10, C: 10, L: 10, E: 10,
-    lineWidth: 1, timeStep: 0.01, voltageC0: 10, currentL0: -10
+    R: 10, C: 100, L: 100, E: 100,
+    lineWidth: 2, timeStep: 0.1, voltageC0: 10, currentL0: 500
   })
+
+  const [showSecondLine, setShowSecondLine] = useState<boolean>(false)
 
   function DiodeDraw(canvas: HTMLCanvasElement) {
     if(!Coordinate.IsValid(diodeCoordinateRaw)) return
@@ -46,6 +49,7 @@ export function TunnelDiodePage() {
     coordinate.Draw(canvas)
     diode.Draw(canvas, coordinate)
 
+    if(!showSecondLine) return
     if(!TunnelDiodeCircuit.IsValid(circuitRaw)) return
     const circuit = new TunnelDiodeCircuit(circuitRaw, diode)
     GraphERLine(canvas, coordinate, circuit.E, circuit.R)
@@ -70,12 +74,16 @@ export function TunnelDiodePage() {
 
       <DrawingPad coordinateRaw={diodeCoordinateRaw} setCoordinateRaw={setDiodeCoordinateRaw} 
         Draw={DiodeDraw}/>
-      <DiodeParameterPanel tunnelDiodeRaw={diodeRaw} setTunnelDiodeRaw={setDiodeRaw}/>
+      <DiodeParameterPanel tunnelDiodeRaw={diodeRaw} setTunnelDiodeRaw={setDiodeRaw}
+        showSecondLine={showSecondLine} setShowSecondLine={setShowSecondLine}/>
       <HDiv height={10} />
 
       <DrawingPad coordinateRaw={circuitCoordinateRaw} setCoordinateRaw={setCircuitCoordinateRaw} 
         Draw={CircuitDraw}/>
       <CircuitParameterPanel circuitRaw={circuitRaw} setCircuitRaw={setCircuitRaw}/>
+      <HDiv height={10} />
+
+      <TunnelDiodeButtonPanel circuitRaw={circuitRaw} setCircuitRaw={setCircuitRaw}/>
     </div>
   </>)
 }

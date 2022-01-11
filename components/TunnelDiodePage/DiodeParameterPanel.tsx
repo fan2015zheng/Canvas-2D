@@ -1,13 +1,17 @@
 import { TextField } from "../Control/Field/TextField"
 import { ITunnelDiodeRaw } from "../Graph/TunnelDiodeCircuit/TunnelDiode"
 import cl from "./DiodeParameterPanel.module.scss"
+import { CheckField } from "../Control/Field/CheckField"
 
 interface IDiodeParameterPanelProp {
   tunnelDiodeRaw: ITunnelDiodeRaw
   setTunnelDiodeRaw: (tunnelDiodeRaw: ITunnelDiodeRaw) => void
+  showSecondLine: boolean
+  setShowSecondLine: (showSecondLine: boolean) => void
 }
 export function DiodeParameterPanel({
-  tunnelDiodeRaw, setTunnelDiodeRaw
+  tunnelDiodeRaw, setTunnelDiodeRaw,
+  showSecondLine, setShowSecondLine
 }: IDiodeParameterPanelProp) {
 
   function setX1(x1: string) { setTunnelDiodeRaw({...tunnelDiodeRaw, x1}) }
@@ -40,6 +44,10 @@ export function DiodeParameterPanel({
       </div>
       <div className={cl.fieldDiv}>
         <TextField prompt="line thickness" value={tunnelDiodeRaw.lineWidth} setValue={setLineWidth} />
+      </div>
+      
+      <div className={cl.fieldDiv}>
+        <CheckField prompt="Show 2nd line" value={!!showSecondLine} setValue={setShowSecondLine} />
       </div>
     </div>
   </>)
