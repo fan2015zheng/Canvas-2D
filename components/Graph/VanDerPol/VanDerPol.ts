@@ -7,8 +7,12 @@ export interface IVanDerPolRaw {
   L: string | number
   lineWidth: string| number
   timeStep: string | number
+  timeSteps: string | number
   voltageC0: string | number
   currentL0: string | number
+  phaseLineWidth: string | number
+  incrementalSteps: string | number
+  useTimeSteps: boolean
 }
 
 export class VanDerPol implements IVanDerPolRaw {
@@ -19,6 +23,10 @@ export class VanDerPol implements IVanDerPolRaw {
   timeStep: number
   voltageC0: number
   currentL0: number
+  timeSteps: number
+  phaseLineWidth: number
+  incrementalSteps: number
+  useTimeSteps: boolean
   dVoltageC_dt: (voltageC: number, currentL: number) => number
   dCurrentL_dt: (voltageC: number) => number
 
@@ -36,6 +44,9 @@ export class VanDerPol implements IVanDerPolRaw {
     if(van.L < Number.EPSILON) return false
     if(van.lineWidth < Number.EPSILON) return false
     if(van.timeStep < Number.EPSILON) return false
+    if(van.timeSteps < 0) return false
+    if(van.phaseLineWidth < Number.EPSILON) return false
+    if(van.incrementalSteps < 1) return false
 
     return true
   }
@@ -49,8 +60,12 @@ export class VanDerPol implements IVanDerPolRaw {
     this.L = +van.L
     this.lineWidth = +van.lineWidth || 1
     this.timeStep = +van.timeStep
+    this.timeSteps = +van.timeSteps
     this.voltageC0 = +van.voltageC0
     this.currentL0 = +van.currentL0
+    this.phaseLineWidth = +van.phaseLineWidth
+    this.incrementalSteps = +van.incrementalSteps
+    this.useTimeSteps = van.useTimeSteps
 
     this.dVoltageC_dt = (voltageC: number, currentL: number) => {
       return (-currentL - this.alpha*voltageC*(voltageC*voltageC-1))/this.C
@@ -59,6 +74,7 @@ export class VanDerPol implements IVanDerPolRaw {
       return voltageC/this.L
     }
   }
+
 
   Draw(canvas: HTMLCanvasElement, coordinate: Coordinate) {
     GraphVanDerPol(canvas, coordinate, this)

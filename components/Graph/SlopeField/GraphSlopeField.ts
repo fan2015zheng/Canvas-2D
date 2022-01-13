@@ -1,8 +1,17 @@
 import Coordinate from "../Coordinate/Coordinate"
 import { SlopeField }from "./SlopeField"
 
+export interface ISlopeFieldTrace {
+  x0: number
+  y0: number
+  traceWidth: number
+  step: number
+  steps: number
+  incrementalSteps: number
+}
+
 export function GraphSlopeField(canvas: HTMLCanvasElement, 
-  coordinate: Coordinate, slopeField: SlopeField) {
+  coordinate: Coordinate, slopeField: SlopeField, slopeFieldTrace?: ISlopeFieldTrace) {
   
   if(!canvas || !coordinate || !slopeField) { return }
 
@@ -13,31 +22,32 @@ export function GraphSlopeField(canvas: HTMLCanvasElement,
   ctx.lineWidth = slopeField.needleWidth
   ctx.stroke(needles)
 
-  const [trace, lastTrace] = TracePath(coordinate, slopeField)
-  ctx.lineWidth = slopeField.traceWidth
+  if(!slopeFieldTrace) return
+  const [trace, lastTrace] = TracePath(coordinate, slopeField, slopeFieldTrace)
+  ctx.lineWidth = slopeFieldTrace.traceWidth
   ctx.strokeStyle = "red"
   ctx.stroke(trace)
   ctx.strokeStyle = "gold"
   ctx.stroke(lastTrace)
 }
 
-function TracePath(coordinate: Coordinate, slopeField: SlopeField) {
+function TracePath(coordinate: Coordinate, slopeField: SlopeField, slopeFieldTrace: ISlopeFieldTrace) {
   const co = coordinate
   let path = new Path2D()
   let lastPath = new Path2D()
 
-  let p = co.Point(slopeField.x0, slopeField.y0)
+  let p = co.Point(slopeFieldTrace.x0, slopeFieldTrace.y0)
   path.moveTo(p.xPixel, p.yPixel)
   let drawLastPath = false
-  for(let i=0; i<slopeField.steps; i++) {
-    p = co.ShiftPoint(p, slopeField.f(p.x, p.y)*slopeField.timeStep, slopeField.g(p.x, p.y)*slopeField.timeStep)
+  for(let i=0; i<slopeFieldTrace.steps; i++) {
+    p = co.ShiftPoint(p, slopeField.f(p.x, p.y)*slopeFieldTrace.step, slopeField.g(p.x, p.y)*slopeFieldTrace.step)
     path.lineTo(p.xPixel, p.yPixel)
 
     if(drawLastPath) {
       lastPath.lineTo(p.xPixel, p.yPixel)
     }
 
-    if(!drawLastPath && slopeField.steps - i < slopeField.incrementalSteps) {
+    if(!drawLastPath && slopeFieldTrace.steps - i < slopeFieldTrace.incrementalSteps) {
       lastPath.moveTo(p.xPixel, p.yPixel)
       drawLastPath = true
     }

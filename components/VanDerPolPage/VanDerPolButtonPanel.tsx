@@ -1,23 +1,22 @@
 import { Button } from "../Control/Button/Button"
 import { ISlopeFieldRaw } from "../Graph/SlopeField/SlopeField"
+import { IVanDerPolRaw } from "../Graph/VanDerPol/VanDerPol"
 import cl from "./VanDerPolButtonPanel.module.scss"
 
 interface IVanDerPolButtonPanelProp {
-  slopeFieldRaw: ISlopeFieldRaw
-  setSlopeFieldRaw: (slopeFieldRaw: ISlopeFieldRaw) => void
+  vanDerPolRaw: IVanDerPolRaw
+  setVanDerPolRaw: (vanDerPolRaw: IVanDerPolRaw) => void
 }
 export function VanDerPolButtonPanel({
-  slopeFieldRaw, setSlopeFieldRaw
+  vanDerPolRaw, setVanDerPolRaw 
 }: IVanDerPolButtonPanelProp) {
 
-
   function AddSteps() {
-    if(slopeFieldRaw.incrementalSteps === undefined || isNaN(+slopeFieldRaw.incrementalSteps)) return
-    const steps = +slopeFieldRaw.steps + +slopeFieldRaw.incrementalSteps
-    setSlopeFieldRaw({...slopeFieldRaw, steps})
+    if(vanDerPolRaw.incrementalSteps === undefined || isNaN(+vanDerPolRaw.incrementalSteps)) return
+    const timeSteps = +vanDerPolRaw.timeSteps + +vanDerPolRaw.incrementalSteps
+    setVanDerPolRaw({...vanDerPolRaw, timeSteps})
   }
 
-  
   return(<>
     <div className={cl.buttons}>
       <Button text="Trace ↑" onClick={AddSteps}/>

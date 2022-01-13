@@ -1,3 +1,4 @@
+import { CheckField } from "../Control/Field/CheckField"
 import { TextField } from "../Control/Field/TextField"
 import { IVanDerPolRaw } from "../Graph/VanDerPol/VanDerPol"
 import cl from "./VanDerPolParameterPanel.module.scss"
@@ -17,7 +18,9 @@ export function VanDerPolParameterPanel({
   function setTimeStep(timeStep: string) { setVanDerPolRaw({...vanDerPolRaw, timeStep}) }
   function setVoltageC0(voltageC0: string) { setVanDerPolRaw({...vanDerPolRaw, voltageC0}) }
   function setCurrentL0(currentL0: string) { setVanDerPolRaw({...vanDerPolRaw, currentL0}) }
-
+  function setTimeSteps(timeSteps: string) { setVanDerPolRaw({...vanDerPolRaw, timeSteps}) }
+  function setUseTimeSteps(useTimeSteps: boolean) { setVanDerPolRaw({...vanDerPolRaw, useTimeSteps}) }
+  
   return (<>
     <div className={cl.fields}>
       <div className={cl.fieldDiv}>
@@ -40,6 +43,15 @@ export function VanDerPolParameterPanel({
       </div>
       <div className={cl.fieldDiv}>
         <TextField prompt="line thickness" value={vanDerPolRaw.lineWidth} setValue={setLineWidth} />
+      </div>
+      <div className={cl.fieldDiv}>
+        <TextField prompt="t step" value={vanDerPolRaw.timeStep} setValue={setTimeStep} />
+      </div>
+      <div className={cl.fieldDiv}>
+        <TextField prompt="steps" value={vanDerPolRaw.timeSteps} setValue={setTimeSteps} />
+      </div>
+      <div className={cl.fieldDiv}>
+        <CheckField prompt="Use steps" value={vanDerPolRaw.useTimeSteps} setValue={setUseTimeSteps} />
       </div>
     </div>
   </>)

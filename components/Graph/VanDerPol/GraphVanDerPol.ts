@@ -21,7 +21,8 @@ function CircuitPath(coordinate: Coordinate, vanDerPol: VanDerPol): [Path2D, Pat
   const co = coordinate
   const voltagePath = new Path2D()
   const currentPath = new Path2D()
-  const tMax = co.maxX
+
+  const tMax = vanDerPol.useTimeSteps? Math.min(co.maxX, vanDerPol.timeSteps * vanDerPol.timeStep) : co.maxX
   const timeStep = vanDerPol.timeStep
   let t = 0
   let voltageC = vanDerPol.voltageC0

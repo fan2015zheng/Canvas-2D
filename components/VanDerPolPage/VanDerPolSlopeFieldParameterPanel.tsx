@@ -1,24 +1,24 @@
 import { TextField } from "../Control/Field/TextField"
 import { ISlopeFieldRaw } from "../Graph/SlopeField/SlopeField"
+import { IVanDerPolRaw } from "../Graph/VanDerPol/VanDerPol"
 import cl from "./VanDerPolParameterPanel.module.scss"
 
 interface IVanDerPolSlopeFieldParameterPanelProp {
+  vanDerPolRaw: IVanDerPolRaw
+  setVanDerPolRaw: (vanDerPolRaw: IVanDerPolRaw) => void
   slopeFieldRaw: ISlopeFieldRaw
   setSlopeFieldRaw: (slopeFieldRaw: ISlopeFieldRaw) => void
 }
 export function VanDerPolSlopeFieldParameterPanel({
+  vanDerPolRaw, setVanDerPolRaw,
   slopeFieldRaw, setSlopeFieldRaw
 }: IVanDerPolSlopeFieldParameterPanelProp) {
 
   function setNeedleLength(needleLength: string) { setSlopeFieldRaw({...slopeFieldRaw, needleLength}) }
   function setNeedleWidth(needleWidth: string) { setSlopeFieldRaw({...slopeFieldRaw, needleWidth}) }
   function setGap(gap: string) { setSlopeFieldRaw({...slopeFieldRaw, gap}) }
-  function setX0(x0: string) { setSlopeFieldRaw({...slopeFieldRaw, x0}) }
-  function setY0(y0: string) { setSlopeFieldRaw({...slopeFieldRaw, y0}) }
-  function setTimeStep(timeStep: string) { setSlopeFieldRaw({...slopeFieldRaw, timeStep}) }
-  function setSteps(steps: string) { setSlopeFieldRaw({...slopeFieldRaw, steps}) }
-  function setIncrementalSteps(incrementalSteps: string) { setSlopeFieldRaw({...slopeFieldRaw, incrementalSteps}) }
-  function setTraceWidth(traceWidth: string) { setSlopeFieldRaw({...slopeFieldRaw, traceWidth}) }
+  function setPhaseLineWidth(phaseLineWidth: string) { setVanDerPolRaw({...vanDerPolRaw, phaseLineWidth}) }
+  function setIncrementalSteps(incrementalSteps: string) { setVanDerPolRaw({...vanDerPolRaw, incrementalSteps}) }
  
   return (<>
     <div className={cl.fields}>
@@ -32,22 +32,10 @@ export function VanDerPolSlopeFieldParameterPanel({
         <TextField prompt="Needle Gap" value={slopeFieldRaw.gap} setValue={setGap} />
       </div>
       <div className={cl.fieldDiv}>
-        <TextField prompt="V0" value={slopeFieldRaw.x0} setValue={setX0} />
+        <TextField prompt="Trace Width" value={vanDerPolRaw.phaseLineWidth} setValue={setPhaseLineWidth} />
       </div>
       <div className={cl.fieldDiv}>
-        <TextField prompt="I0" value={slopeFieldRaw.y0} setValue={setY0} />
-      </div>
-      <div className={cl.fieldDiv}>
-        <TextField prompt="t step" value={slopeFieldRaw.timeStep} setValue={setTimeStep} />
-      </div>
-      <div className={cl.fieldDiv}>
-        <TextField prompt="steps" value={slopeFieldRaw.steps} setValue={setSteps} />
-      </div>
-      <div className={cl.fieldDiv}>
-        <TextField prompt="Incremental steps" value={slopeFieldRaw.incrementalSteps} setValue={setIncrementalSteps} />
-      </div>
-      <div className={cl.fieldDiv}>
-        <TextField prompt="Trace Width" value={slopeFieldRaw.traceWidth} setValue={setTraceWidth} />
+        <TextField prompt="Incremental Steps" value={vanDerPolRaw.incrementalSteps} setValue={setIncrementalSteps} />
       </div>
     </div>
   </>)

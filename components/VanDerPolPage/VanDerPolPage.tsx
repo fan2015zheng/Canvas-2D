@@ -7,7 +7,6 @@ import { IVanDerPolRaw, VanDerPol } from '../Graph/VanDerPol/VanDerPol'
 import { VanDerPolParameterPanel } from './VanDerPolParameterPanel'
 import { ISlopeFieldRaw, SlopeField } from '../Graph/SlopeField/SlopeField'
 import { VanDerPolSlopeFieldParameterPanel } from './VanDerPolSlopeFieldParameterPanel'
-import { ButtonPanel } from '../LogisticMapPage/ButtonPanel'
 import { VanDerPolButtonPanel } from './VanDerPolButtonPanel'
 
 export function VanDerPolPage() {
@@ -22,29 +21,24 @@ export function VanDerPolPage() {
   })
 
   const [fieldCoordinateRaw, setFieldCoordinateRaw] = useState<ICoordinateRaw>({
-    maxPixelX: 500, maxPixelY: 500,
-    maxX: 2, maxY: 2,
+    maxPixelX: 350, maxPixelY: 350,
+    maxX: 6, maxY: 6,
     minX: -2, minY: -2,
     originX: 0, originY: 0,
     xLabelGap: 1, yLabelGap: 1,
     xRulePerLabel: 2, yRulePerLabel: 2
   })
-
   const [vanDerPolRaw, setVanDerPolRaw] = useState<IVanDerPolRaw>({
     alpha: 1, C: 10, L: 10,
-    lineWidth: 2, timeStep: 0.01, voltageC0: 10, currentL0: 10
+    lineWidth: 2, timeStep: 0.01, timeSteps: 1000,
+    voltageC0: 5, currentL0: 5,
+    phaseLineWidth:5, incrementalSteps:300, useTimeSteps: false
   })
 
   const [slopeFieldRaw, setSlopeFieldRaw] = useState<ISlopeFieldRaw>({
-    needleLength: 0.1,
+    needleLength: 0.2,
     needleWidth: 0.5,
-    gap: 0.1,
-    x0: 1,
-    y0: 1,
-    timeStep: 0.1,
-    steps: 200,
-    traceWidth: 2,
-    incrementalSteps: 50
+    gap: 0.3
   })
 
   function Draw(canvas: HTMLCanvasElement) {
@@ -66,7 +60,14 @@ export function VanDerPolPage() {
     const g = (x: number, y: number) => vanDerPol.dCurrentL_dt(x)
     const slopeField = new SlopeField(slopeFieldRaw,f, g)
     coordinate.Draw(canvas)
-    slopeField.Draw(canvas, coordinate)
+    slopeField.Draw(canvas, coordinate, {
+      x0: vanDerPol.voltageC0,
+      y0: vanDerPol.currentL0,
+      traceWidth: vanDerPol.phaseLineWidth,
+      step: vanDerPol.timeStep,
+      steps: vanDerPol.timeSteps,
+      incrementalSteps: vanDerPol.incrementalSteps
+    })
   }
 
   return (<>
@@ -85,10 +86,14 @@ export function VanDerPolPage() {
       <DrawingPad coordinateRaw={fieldCoordinateRaw} setCoordinateRaw={setFieldCoordinateRaw} 
         Draw={DrawSlopeField}/>
       <HDiv height={10} />
-      <VanDerPolSlopeFieldParameterPanel slopeFieldRaw={slopeFieldRaw}
+      <VanDerPolSlopeFieldParameterPanel 
+        vanDerPolRaw={vanDerPolRaw}
+        setVanDerPolRaw={setVanDerPolRaw}
+        slopeFieldRaw={slopeFieldRaw}
         setSlopeFieldRaw={setSlopeFieldRaw}/>
-      <VanDerPolButtonPanel slopeFieldRaw={slopeFieldRaw}
-        setSlopeFieldRaw={setSlopeFieldRaw}/>
+      <VanDerPolButtonPanel 
+        vanDerPolRaw={vanDerPolRaw}
+        setVanDerPolRaw={setVanDerPolRaw}/>
     </div>
   </>)
 }
