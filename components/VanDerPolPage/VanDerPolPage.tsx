@@ -4,6 +4,7 @@ import { HDiv } from '../../components/Control/Div/Div'
 import { DrawingPad } from '../DrawingPad/DrawingPad'
 import cl from "./VanDerPolPage.module.scss"
 import { IVanDerPolRaw, VanDerPol } from '../Graph/VanDerPol/VanDerPol'
+import { VanDerPolParameterPanel } from './VanDerPolParameterPanel'
 
 export function VanDerPolPage() {
   
@@ -20,7 +21,6 @@ export function VanDerPolPage() {
     alpha: 1, C: 10, L: 10,
     lineWidth: 2, timeStep: 0.01, voltageC0: 10, currentL0: 10
   })
-
 
   function Draw(canvas: HTMLCanvasElement) {
     if(!Coordinate.IsValid(coordinateRaw)) return
@@ -39,6 +39,9 @@ export function VanDerPolPage() {
 
       <DrawingPad coordinateRaw={coordinateRaw} setCoordinateRaw={setCoordinateRaw} 
         Draw={Draw}/>
+      <HDiv height={10} />
+      <VanDerPolParameterPanel vanDerPolRaw={vanDerPolRaw}
+        setVanDerPolRaw={setVanDerPolRaw}/>
     </div>
   </>)
 }
