@@ -30,7 +30,7 @@ export function VanDerPolPage() {
   })
   const [vanDerPolRaw, setVanDerPolRaw] = useState<IVanDerPolRaw>({
     alpha: 1, C: 10, L: 10,
-    lineWidth: 2, timeStep: 0.01, timeSteps: 1000,
+    lineWidth: 2, timeStep: 0.001, timeSteps: 0,
     voltageC0: 5, currentL0: 5,
     phaseLineWidth:5, incrementalSteps:300, useTimeSteps: false
   })
@@ -81,6 +81,9 @@ export function VanDerPolPage() {
       <HDiv height={10} />
       <VanDerPolParameterPanel vanDerPolRaw={vanDerPolRaw}
         setVanDerPolRaw={setVanDerPolRaw}/>
+      <VanDerPolButtonPanel 
+        vanDerPolRaw={vanDerPolRaw}
+        setVanDerPolRaw={setVanDerPolRaw}/>
       <HDiv height={10} />
 
       <DrawingPad coordinateRaw={fieldCoordinateRaw} setCoordinateRaw={setFieldCoordinateRaw} 
@@ -91,9 +94,6 @@ export function VanDerPolPage() {
         setVanDerPolRaw={setVanDerPolRaw}
         slopeFieldRaw={slopeFieldRaw}
         setSlopeFieldRaw={setSlopeFieldRaw}/>
-      <VanDerPolButtonPanel 
-        vanDerPolRaw={vanDerPolRaw}
-        setVanDerPolRaw={setVanDerPolRaw}/>
     </div>
   </>)
 }

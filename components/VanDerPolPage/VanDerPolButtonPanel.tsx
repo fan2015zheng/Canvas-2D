@@ -17,9 +17,20 @@ export function VanDerPolButtonPanel({
     setVanDerPolRaw({...vanDerPolRaw, timeSteps})
   }
 
+  function ChangeCapacitance(dC: number) {
+    if(vanDerPolRaw.C === undefined || isNaN(+vanDerPolRaw.C)) return
+    if(+vanDerPolRaw.C + dC < Number.EPSILON) return
+    const C = Math.round((+vanDerPolRaw.C + dC)*1000)/1000
+    setVanDerPolRaw({...vanDerPolRaw, C})
+  }
+  function CPlus() { ChangeCapacitance(0.1) }
+  function CMinus() { ChangeCapacitance(-0.1) }
+
   return(<>
     <div className={cl.buttons}>
-      <Button text="Trace ↑" onClick={AddSteps}/>
+      <Button text="Trace" onClick={AddSteps}/>
+      <Button text="Capacitance ↑" onClick={CPlus}/>
+      <Button text="Capacitance ↓" onClick={CMinus}/>
     </div>
   </>)
 }

@@ -33,22 +33,19 @@ export function VanDerPolParameterPanel({
         <TextField prompt="Inductance" value={vanDerPolRaw.L} setValue={setL} />
       </div>
       <div className={cl.fieldDiv}>
-        <TextField prompt="t step" value={vanDerPolRaw.timeStep} setValue={setTimeStep} />
-      </div>
-      <div className={cl.fieldDiv}>
         <TextField prompt="V0" value={vanDerPolRaw.voltageC0} setValue={setVoltageC0} />
       </div>
       <div className={cl.fieldDiv}>
         <TextField prompt="I0" value={vanDerPolRaw.currentL0} setValue={setCurrentL0} />
       </div>
       <div className={cl.fieldDiv}>
-        <TextField prompt="line thickness" value={vanDerPolRaw.lineWidth} setValue={setLineWidth} />
-      </div>
-      <div className={cl.fieldDiv}>
         <TextField prompt="t step" value={vanDerPolRaw.timeStep} setValue={setTimeStep} />
       </div>
       <div className={cl.fieldDiv}>
         <TextField prompt="steps" value={vanDerPolRaw.timeSteps} setValue={setTimeSteps} />
+      </div>
+      <div className={cl.fieldDiv}>
+        <TextField prompt="line thickness" value={vanDerPolRaw.lineWidth} setValue={setLineWidth} />
       </div>
       <div className={cl.fieldDiv}>
         <CheckField prompt="Use steps" value={vanDerPolRaw.useTimeSteps} setValue={setUseTimeSteps} />

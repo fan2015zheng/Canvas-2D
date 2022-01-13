@@ -37,6 +37,7 @@ function TracePath(coordinate: Coordinate, slopeField: SlopeField, slopeFieldTra
   let lastPath = new Path2D()
 
   let p = co.Point(slopeFieldTrace.x0, slopeFieldTrace.y0)
+  path.arc(p.xPixel, p.yPixel, slopeFieldTrace.traceWidth*1.2, 0, 2*Math.PI)
   path.moveTo(p.xPixel, p.yPixel)
   let drawLastPath = false
   for(let i=0; i<slopeFieldTrace.steps; i++) {
