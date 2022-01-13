@@ -19,7 +19,7 @@ export function VanDerPolSlopeFieldParameterPanel({
   function setSteps(steps: string) { setSlopeFieldRaw({...slopeFieldRaw, steps}) }
   function setIncrementalSteps(incrementalSteps: string) { setSlopeFieldRaw({...slopeFieldRaw, incrementalSteps}) }
   function setTraceWidth(traceWidth: string) { setSlopeFieldRaw({...slopeFieldRaw, traceWidth}) }
-
+ 
   return (<>
     <div className={cl.fields}>
       <div className={cl.fieldDiv}>
