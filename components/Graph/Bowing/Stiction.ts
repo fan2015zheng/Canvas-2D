@@ -33,7 +33,7 @@ export class Stiction implements IStictionRaw {
     if(stiction.y1 < Number.EPSILON) return false
     if(+stiction.y1 - +stiction.y0 > -Number.EPSILON) return false
     if(+stiction.x2 - +stiction.x1 < Number.EPSILON) return false
-    if(+stiction.y2 - +stiction.y1 > -Number.EPSILON) return false
+    if(+stiction.y2 - +stiction.y1 < Number.EPSILON) return false
     if(+stiction.lineWidth < Number.EPSILON) return false
 
     return true

@@ -21,7 +21,8 @@ function BowPath(coordinate: Coordinate, bow: Bowing): [Path2D, Path2D] {
   const co = coordinate
   const xPath = new Path2D()
   const vPath = new Path2D()
-  const tMax = co.maxX
+  const tMax = bow.useTimeSteps? Math.min(co.maxX, bow.timeSteps * bow.timeStep) : co.maxX
+
   const timeStep = bow.timeStep
   let t = 0
   let x = bow.x0

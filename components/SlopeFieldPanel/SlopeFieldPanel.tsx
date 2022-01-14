@@ -1,28 +1,28 @@
 import { TextField } from "../Control/Field/TextField"
 import { ISlopeFieldRaw } from "../Graph/SlopeField/SlopeField"
-import cl from "./SlopeFieldParameterPanel.module.scss"
+import cl from "./SlopeFieldPanel.module.scss"
 
-interface ISlopeFieldExtraRaw {
+export interface ISlopeFieldExtraRaw {
   phaseLineWidth: string | number
   incrementalSteps: string | number
 }
 
-interface IBowingSlopeFieldParameterPanelProp {
-  extraRaw: ISlopeFieldExtraRaw
-  setExtraRaw: (extraRaw: ISlopeFieldExtraRaw) => void
+interface ISlopeFieldParameterPanelProp {
+  slopeFieldExtraRaw: ISlopeFieldExtraRaw
+  setSlopeFieldExtraRaw: (slopeFieldExtraRaw: any) => void
   slopeFieldRaw: ISlopeFieldRaw
   setSlopeFieldRaw: (slopeFieldRaw: ISlopeFieldRaw) => void
 }
-export function BowingSlopeFieldParameterPanel({
-  extraRaw, setExtraRaw,
+export function SlopeFieldParameterPanel({
+  slopeFieldExtraRaw, setSlopeFieldExtraRaw,
   slopeFieldRaw, setSlopeFieldRaw
-}: IBowingSlopeFieldParameterPanelProp) {
+}: ISlopeFieldParameterPanelProp) {
 
   function setNeedleLength(needleLength: string) { setSlopeFieldRaw({...slopeFieldRaw, needleLength}) }
   function setNeedleWidth(needleWidth: string) { setSlopeFieldRaw({...slopeFieldRaw, needleWidth}) }
   function setGap(gap: string) { setSlopeFieldRaw({...slopeFieldRaw, gap}) }
-  function setPhaseLineWidth(phaseLineWidth: string) { setExtraRaw({...extraRaw, phaseLineWidth}) }
-  function setIncrementalSteps(incrementalSteps: string) { setExtraRaw({...extraRaw, incrementalSteps}) }
+  function setPhaseLineWidth(phaseLineWidth: string) { setSlopeFieldExtraRaw({...slopeFieldExtraRaw, phaseLineWidth}) }
+  function setIncrementalSteps(incrementalSteps: string) { setSlopeFieldExtraRaw({...slopeFieldExtraRaw, incrementalSteps}) }
  
   return (<>
     <div className={cl.fields}>
@@ -36,10 +36,10 @@ export function BowingSlopeFieldParameterPanel({
         <TextField prompt="Needle Gap" value={slopeFieldRaw.gap} setValue={setGap} />
       </div>
       <div className={cl.fieldDiv}>
-        <TextField prompt="Trace Width" value={extraRaw.phaseLineWidth} setValue={setPhaseLineWidth} />
+        <TextField prompt="Trace Width" value={slopeFieldExtraRaw.phaseLineWidth} setValue={setPhaseLineWidth} />
       </div>
       <div className={cl.fieldDiv}>
-        <TextField prompt="Incremental Steps" value={extraRaw.incrementalSteps} setValue={setIncrementalSteps} />
+        <TextField prompt="Incremental Steps" value={slopeFieldExtraRaw.incrementalSteps} setValue={setIncrementalSteps} />
       </div>
     </div>
   </>)

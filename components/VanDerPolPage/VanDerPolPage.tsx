@@ -6,8 +6,8 @@ import cl from "./VanDerPolPage.module.scss"
 import { IVanDerPolRaw, VanDerPol } from '../Graph/VanDerPol/VanDerPol'
 import { VanDerPolParameterPanel } from './VanDerPolParameterPanel'
 import { ISlopeFieldRaw, SlopeField } from '../Graph/SlopeField/SlopeField'
-import { VanDerPolSlopeFieldParameterPanel } from './VanDerPolSlopeFieldParameterPanel'
 import { VanDerPolButtonPanel } from './VanDerPolButtonPanel'
+import { SlopeFieldParameterPanel } from '../SlopeFieldPanel/SlopeFieldPanel'
 
 export function VanDerPolPage() {
   
@@ -89,9 +89,9 @@ export function VanDerPolPage() {
       <DrawingPad coordinateRaw={fieldCoordinateRaw} setCoordinateRaw={setFieldCoordinateRaw} 
         Draw={DrawSlopeField}/>
       <HDiv height={10} />
-      <VanDerPolSlopeFieldParameterPanel 
-        vanDerPolRaw={vanDerPolRaw}
-        setVanDerPolRaw={setVanDerPolRaw}
+      <SlopeFieldParameterPanel 
+        slopeFieldExtraRaw={vanDerPolRaw}
+        setSlopeFieldExtraRaw={setVanDerPolRaw}
         slopeFieldRaw={slopeFieldRaw}
         setSlopeFieldRaw={setSlopeFieldRaw}/>
     </div>
