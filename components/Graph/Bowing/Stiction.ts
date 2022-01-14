@@ -58,10 +58,10 @@ export class Stiction implements IStictionRaw {
       if(x < Number.EPSILON) return 0
 
       if(x>0 && x<=stiction.x1) {
-        return linearFun(0,+stiction.y0, +stiction.x1, +stiction.y1, x)
+        return sign * linearFun(0,+stiction.y0, +stiction.x1, +stiction.y1, x)
       }
       if(x>stiction.x1) {
-        return linearFun(+stiction.x1, +stiction.y1, +stiction.x2, +stiction.y2, x)
+        return sign * linearFun(+stiction.x1, +stiction.y1, +stiction.x2, +stiction.y2, x)
       }
       return 0
     }

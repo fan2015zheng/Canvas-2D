@@ -9,6 +9,7 @@ import { IBowingRaw, Bowing } from '../Graph/Bowing/Bowing'
 import { BowingParameterPanel } from './BowingParameterPanel'
 import { IStictionRaw, Stiction } from '../Graph/Bowing/Stiction'
 import { SlopeFieldParameterPanel } from '../SlopeFieldPanel/SlopeFieldPanel'
+import { BowingButtonPanel } from './BowingButtonPanel'
 
 export function BowingPage() {
   
@@ -22,11 +23,11 @@ export function BowingPage() {
   })
   const [bowingCoordinateRaw, setBowingCoordinateRaw] = useState<ICoordinateRaw>({
     maxPixelX: 600, maxPixelY: 300,
-    maxX: 3000, maxY: 220,
-    minX: -250, minY: -20,
+    maxX: 50, maxY: 5,
+    minX: -5, minY: -5,
     originX: 0, originY: 0,
-    xLabelGap: 500, yLabelGap: 50,
-    xRulePerLabel: 2, yRulePerLabel: 5
+    xLabelGap: 10, yLabelGap: 1,
+    xRulePerLabel: 2, yRulePerLabel: 2
   })
   const [fieldCoordinateRaw, setFieldCoordinateRaw] = useState<ICoordinateRaw>({
     maxPixelX: 350, maxPixelY: 350,
@@ -38,18 +39,18 @@ export function BowingPage() {
   })
 
   const [stictionRaw, setStictionRaw] = useState<IStictionRaw>({
-    y0: 4, x1: 5, y1: 2, x2: 10, y2: 6, lineWidth: 2})
+    y0: 5.2, x1: 5.5, y1: 1.6, x2: 10, y2: 10, lineWidth: 2})
   
   const [bowingRaw, setBowingRaw] = useState<IBowingRaw>({
-    M: 1, k: 1, b: 1,
-    lineWidth: 2, timeStep: 0.1, timeSteps: 0, x0: 0, v0: 0,  phaseLineWidth: 5,
-    incrementalSteps: 300, useTimeSteps: false
+    M: 1, k: 1, b: 5,
+    lineWidth: 2, timeStep: 0.001, timeSteps: 0, x0: 1, v0: 0,  phaseLineWidth: 5,
+    incrementalSteps: 1000, useTimeSteps: false
   })
 
   const [slopeFieldRaw, setSlopeFieldRaw] = useState<ISlopeFieldRaw>({
-    needleLength: 0.2,
-    needleWidth: 0.5,
-    gap: 0.3
+    needleLength: 0.8,
+    needleWidth: 1,
+    gap: 1
   })
 
   function StictionDraw(canvas: HTMLCanvasElement) {
@@ -109,7 +110,7 @@ export function BowingPage() {
         Draw={BowingDraw}/>
       <BowingParameterPanel bowingRaw={bowingRaw} setBowingRaw={setBowingRaw}/>
       <HDiv height={10} />
-
+      <BowingButtonPanel bowingRaw={bowingRaw} setBowingRaw={setBowingRaw}/>
       <DrawingPad coordinateRaw={fieldCoordinateRaw} setCoordinateRaw={setFieldCoordinateRaw} 
         Draw={DrawSlopeField}/>
       <HDiv height={10} />

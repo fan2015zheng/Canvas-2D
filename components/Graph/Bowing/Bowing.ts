@@ -73,8 +73,9 @@ export class Bowing implements IBowingRaw {
     this.dx_dt = (v: number) => {
       return v
     }
+  
     this.dv_dt = (x: number, v: number) => {
-      return (-this.k*x-stiction.f(v-this.b))/this.M
+      return (-this.k * x - stiction.f(v - this.b))/this.M
     }
   }
 
