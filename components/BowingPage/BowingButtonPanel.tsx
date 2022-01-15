@@ -25,7 +25,7 @@ export function BowingButtonPanel({
   return(<>
     <div className={cl.buttons}>
       <Button text="Trace" onClick={AddSteps}/>
-      <Button text="Trace back" onClick={RemoveSteps}/>
+      <Button text="Undo Trace" onClick={RemoveSteps}/>
     </div>
   </>)
 }
