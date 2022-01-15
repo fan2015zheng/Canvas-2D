@@ -20,22 +20,23 @@ function StictionPath(coordinate: Coordinate, stiction: Stiction) {
   const path = new Path2D()
 
   const origin = co.Point(0,0)
-  const p0 = co.Point(0, st.y0)
-  const p1 = co.Point(st.x1, st.y1)
-  const p2 = co.Point(st.x2, st.y2)
-
-  const p3 = co.Point(0, -st.y0)
-  const p4 = co.Point(-st.x1, -st.y1)
-  const p5 = co.Point(-st.x2, -st.y2)
-
   path.arc(origin.xPixel, origin.yPixel, stiction.lineWidth,0,2*Math.PI)
-  path.moveTo(p0.xPixel, p0.yPixel)
-  path.lineTo(p1.xPixel, p1.yPixel)
-  path.lineTo(p2.xPixel, p2.yPixel)
 
-  path.moveTo(p3.xPixel, p3.yPixel)
-  path.lineTo(p4.xPixel, p4.yPixel)
-  path.lineTo(p5.xPixel, p5.yPixel)
+
+  let p0 = co.Point(0, stiction.y0)
+  path.moveTo(p0.xPixel, p0.yPixel)
+
+  for(let x=stiction.step; x<=co.maxX; x+=stiction.step) {
+    const p = co.Point(x, stiction.f(x))
+    path.lineTo(p.xPixel, p.yPixel)
+  }
+
+  p0 = co.Point(0, -stiction.y0)
+  path.moveTo(p0.xPixel, p0.yPixel)
+  for(let x=-stiction.step; x>=co.minX; x-=stiction.step) {
+    const p = co.Point(x, stiction.f(x))
+    path.lineTo(p.xPixel, p.yPixel)
+  }
 
   return path
 }

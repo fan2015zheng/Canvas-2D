@@ -23,26 +23,26 @@ export function BowingPage() {
   })
   const [bowingCoordinateRaw, setBowingCoordinateRaw] = useState<ICoordinateRaw>({
     maxPixelX: 600, maxPixelY: 300,
-    maxX: 50, maxY: 5,
-    minX: -5, minY: -5,
+    maxX: 150, maxY: 10,
+    minX: -10, minY: -10,
     originX: 0, originY: 0,
-    xLabelGap: 10, yLabelGap: 1,
+    xLabelGap: 20, yLabelGap: 2,
     xRulePerLabel: 2, yRulePerLabel: 2
   })
   const [fieldCoordinateRaw, setFieldCoordinateRaw] = useState<ICoordinateRaw>({
     maxPixelX: 350, maxPixelY: 350,
-    maxX: 10, maxY: 10,
-    minX: -10, minY: -10,
+    maxX: 10, maxY: 5,
+    minX: -10, minY: -5,
     originX: 0, originY: 0,
-    xLabelGap: 1, yLabelGap: 1,
+    xLabelGap: 2, yLabelGap: 1,
     xRulePerLabel: 2, yRulePerLabel: 2
   })
 
   const [stictionRaw, setStictionRaw] = useState<IStictionRaw>({
-    y0: 5.2, x1: 5.5, y1: 1.6, x2: 10, y2: 10, lineWidth: 2})
+    y0: 5, x1: 3, y1: 2, lineWidth: 2, step:0.1})
   
   const [bowingRaw, setBowingRaw] = useState<IBowingRaw>({
-    M: 1, k: 1, b: 5,
+    M: 5, k: 1, b: 2,
     lineWidth: 2, timeStep: 0.001, timeSteps: 0, x0: 1, v0: 0,  phaseLineWidth: 5,
     incrementalSteps: 1000, useTimeSteps: false
   })
