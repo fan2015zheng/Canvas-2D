@@ -19,7 +19,9 @@ export function GraphSlopeField(canvas: HTMLCanvasElement,
   if(!ctx) return
 
   const needles = NeedlePath(coordinate, slopeField, slopeField.needleWidth*1.5)
+ 
   ctx.lineWidth = slopeField.needleWidth
+  ctx.strokeStyle = "gray"
   ctx.stroke(needles)
 
   if(!slopeFieldTrace) return

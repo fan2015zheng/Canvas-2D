@@ -1,5 +1,4 @@
 import Coordinate from "../Coordinate/Coordinate"
-import { xyFun } from "../SlopeField/SlopeField"
 import {Linearization} from "./Linearization"
 
 export function GraphLinearization(canvas: HTMLCanvasElement, 
@@ -10,30 +9,43 @@ export function GraphLinearization(canvas: HTMLCanvasElement,
   const ctx = canvas.getContext("2d")
   if(!ctx) return
 
-  const [path0, path1, path2] = LinearizationPaths(coordinate, linearization, linear)
+  const [path0, path1, path2, path3] = LinearizationPaths(coordinate, linearization, linear)
   ctx.lineWidth = linearization.lineWidth
-  ctx.strokeStyle = "black"
-  if(path0) ctx.stroke(path0)
+  if(path0) {
+    ctx.strokeStyle = "#666"
+    ctx.stroke(path0)
+  }
 
-  ctx.strokeStyle = "blue"
-  if(path1) ctx.stroke(path1)
-
-  ctx.strokeStyle = "red"
-  if(path2) ctx.stroke(path2)
+  if(path1) {
+    ctx.strokeStyle = "#4267B2"
+    ctx.stroke(path1)
+  }
+  if(path2) {
+    ctx.strokeStyle = "#c4302b"
+    ctx.stroke(path2)
+  }
+  if(path3) {
+    ctx.strokeStyle = "limegreen"
+    ctx.stroke(path3)
+  }
 }
 
 function LinearizationPaths(coordinate: Coordinate, linearization: Linearization, linear: boolean) {
   const path0 = TracePath(coordinate, linearization, 0, linear) 
   
   let path1 = null
-  if(!linearization.x1 || !linearization.y1) {
+  if(linearization.x1 || linearization.y1) {
     path1 = TracePath(coordinate, linearization, 1, linear) 
   }
   let path2 = null
-  if(!linearization.x2 || !linearization.y2) {
+  if(linearization.x2 || linearization.y2) {
     path2 = TracePath(coordinate, linearization, 2, linear) 
   }
-  return [path0, path1, path2]
+  let path3 = null
+  if(linearization.x3 || linearization.y3) {
+    path3 = TracePath(coordinate, linearization, 3, linear) 
+  }
+  return [path0, path1, path2, path3]
 }
 
 function TracePath(
@@ -47,7 +59,7 @@ function TracePath(
   switch(num) {
     case 0:
       initX = linearization.x0
-      initX = linearization.y0
+      initY = linearization.y0
       break
     case 1:
       initX = linearization.x1
@@ -57,9 +69,13 @@ function TracePath(
       initX = linearization.x2
       initY = linearization.y2
       break
+    case 3:
+      initX = linearization.x3
+      initY = linearization.y3
+      break
   }
-  let p = co.Point(initX, initY) 
-  path.moveTo(p.xPixel, p.yPixel)
+  const p0 = co.Point(initX, initY)
+  path.moveTo(p0.xPixel, p0.yPixel)
 
   const dx_dt = linear ? linearization.dx_dtLinear : linearization.dx_dt
   const dy_dt = linear ? linearization.dy_dtLinear : linearization.dy_dt
@@ -71,7 +87,20 @@ function TracePath(
     const dy = dy_dt(x, y) * linearization.timeStep
     x = x + dx
     y = y + dy
-    let p = co.Point(x, y)
+    const p = co.Point(x, y)
+    path.lineTo(p.xPixel, p.yPixel)
+  }
+
+  // go backward time
+  path.moveTo(p0.xPixel, p0.yPixel)
+  x = initX
+  y = initY
+  for(let i=0; i<linearization.timeSteps; i++) {
+    const dx = dx_dt(x, y) * -linearization.timeStep
+    const dy = dy_dt(x, y) * -linearization.timeStep
+    x = x + dx
+    y = y + dy
+    const p = co.Point(x, y)
     path.lineTo(p.xPixel, p.yPixel)
   }
   

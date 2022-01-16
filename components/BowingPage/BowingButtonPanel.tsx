@@ -1,5 +1,4 @@
 import { Button } from "../Control/Button/Button"
-import { ISlopeFieldRaw } from "../Graph/SlopeField/SlopeField"
 import { IBowingRaw } from "../Graph/Bowing/Bowing"
 import cl from "./BowingButtonPanel.module.scss"
 

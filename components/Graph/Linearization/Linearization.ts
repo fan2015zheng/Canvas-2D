@@ -10,7 +10,8 @@ export interface ILinearizationRaw {
   y1: string | number
   x2: string | number
   y2: string | number
-
+  x3: string | number
+  y3: string | number
   expressionF: string
   expressionG: string
   a: string | number
@@ -30,6 +31,8 @@ export class Linearization {
   y1: number
   x2: number
   y2: number
+  x3: number
+  y3: number
   a: number
   b: number
   c: number
@@ -52,6 +55,8 @@ export class Linearization {
     if(lin.y1 === undefined || isNaN(+lin.y1)) return false
     if(lin.x2 === undefined || isNaN(+lin.x2)) return false
     if(lin.y2 === undefined || isNaN(+lin.y2)) return false
+    if(lin.x3 === undefined || isNaN(+lin.x3)) return false
+    if(lin.y3 === undefined || isNaN(+lin.y3)) return false
 
     if(lin.a === undefined || isNaN(+lin.a)) return false
     if(lin.b === undefined || isNaN(+lin.b)) return false
@@ -85,6 +90,8 @@ export class Linearization {
     this.y1 = +lin.y1
     this.x2 = +lin.x2
     this.y2 = +lin.y2
+    this.x3 = +lin.x3
+    this.y3 = +lin.y3
     this.a = +lin.a
     this.b = +lin.b
     this.c = +lin.c
@@ -100,12 +107,22 @@ export class Linearization {
     this.codeG = nodeG.compile()
 
     this.dx_dt = (x: number, y: number) => {
-      const scope = {x, y}
-      return this.codeF.evaluate(scope)
+      try {
+        const scope = {x, y}
+        return this.codeF.evaluate(scope)
+      } catch(e) {
+        console.log("Eval error", e)
+        return 0
+      }
     }
     this.dy_dt = (x: number, y: number) => {
-      const scope = {x, y}
-      return this.codeG.evaluate(scope)
+      try {
+        const scope = {x, y}
+        return this.codeG.evaluate(scope)
+      } catch(e) {
+        console.log("Eval error", e)
+        return 0
+      }
     }
     this.dx_dtLinear = (x: number, y: number) => {
       return this.a*x+this.b*y
