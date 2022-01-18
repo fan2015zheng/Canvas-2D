@@ -81,12 +81,12 @@ function NeedlePath(coordinate: Coordinate, slopeField: SlopeField, radius: numb
 }
 
 
-function Cos(x: number, y: number) {
+export function Cos(x: number, y: number) {
   if (x < Number.EPSILON && x > -Number.EPSILON) return 0
   return x / Math.sqrt(x*x + y*y)
 }
 
-function Sin(x: number, y: number) {
+export function Sin(x: number, y: number) {
   if (y < Number.EPSILON && y > -Number.EPSILON) return 0
   return y / Math.sqrt(x*x + y*y)
 }

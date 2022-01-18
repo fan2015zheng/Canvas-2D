@@ -111,7 +111,6 @@ export class Linearization {
         const scope = {x, y}
         return this.codeF.evaluate(scope)
       } catch(e) {
-        console.log("Eval error", e)
         return 0
       }
     }
@@ -120,7 +119,6 @@ export class Linearization {
         const scope = {x, y}
         return this.codeG.evaluate(scope)
       } catch(e) {
-        console.log("Eval error", e)
         return 0
       }
     }
